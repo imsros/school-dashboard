@@ -1,0 +1,57 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+* span {
+  font-family: "Poppins", sans-serif;
+}
+.container-nav {
+  background-color: #831717;
+  color: white;
+}
+.nav-list span {
+  margin-left: 14px;
+  font-family: "Poppins", sans-serif;
+}
+.app-sidenav .sub-nav-list a {
+  color: blue;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+#btn-menu {
+  background-color: transparent;
+}
+.app-container {
+  height: 90%;
+  margin: 0;
+}
+.app-sidenav {
+  width: 230px;
+  display: flex;
+  flex-direction: column;
+}
+.app-sidenav-content {
+  display: flex;
+  height: auto;
+  justify-content: center;
+}
+#icon {
+  margin-bottom: -4px;
+}
+
+mat-expansion-panel-header {
+  padding: 0px 16px;
+}
+mat-nav-list {
+  padding: 0px;
+}
+mat-list-item {
+  color: blue;
+}
+#product-list {
+  margin-left: 10px;
+}

@@ -1,0 +1,10 @@
+<div class="lecturer-home-container">
+  <app-card
+    *ngFor="let lecturer of lecturer_home"
+    [title]="lecturer.title"
+    [image]="lecturer.image"
+    [description]="lecturer.description"
+    [route]="lecturer.route"
+  >
+  </app-card>
+</div>

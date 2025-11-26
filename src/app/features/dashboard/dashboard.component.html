@@ -1,0 +1,10 @@
+<div class="dashboard-container">
+  <app-card
+    *ngFor="let card of cards"
+    [title]="card.title"
+    [image]="card.image"
+    [description]="card.description"
+    [route]="card.route"
+  >
+  </app-card>
+</div>
