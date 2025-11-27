@@ -11,7 +11,7 @@ import { StudentsService } from 'src/app/core/services/students.service';
 })
 export class StudentAddComponent {
   formStudent: FormGroup;
-  sutdent: Student[] = [];
+  students: Student[] = [];
   preview: string | ArrayBuffer | null =
     'https://png.pngtree.com/png-clipart/20210709/ourmid/pngtree-cartoon-blue-purple-instagram-social-cute-female-student-avatar-png-image_3579094.jpg';
   constructor(
@@ -57,28 +57,18 @@ export class StudentAddComponent {
     return this.formStudent.get('contact') as FormArray;
   }
 
-  // addNewContact() {
-  //   this.contact.push(this.newContact());
-  // }
-
   addNewContact() {
-    this.contact.push(
-      (this.formStudent = this.fb.group({
-        username: [''],
-        relative: [''],
-        telephone: [''],
-        address: [''],
-      }))
-    );
+    this.contact.push(this.newContact());
   }
-  // newContact(): FormGroup {
-  //   return this.fb.group({
-  //     username: ['', Validators.required],
-  //     relative: ['', Validators.required],
-  //     telephone: ['', Validators.required],
-  //     address: ['', Validators.required],
-  //   });
-  // }
+
+  newContact(): FormGroup {
+    return this.fb.group({
+      username: ['', Validators.required],
+      relative: ['', Validators.required],
+      telephone: ['', Validators.required],
+      address: ['', Validators.required],
+    });
+  }
 
   onSubmit() {
     if (this.formStudent.invalid) {
