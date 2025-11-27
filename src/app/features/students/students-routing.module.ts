@@ -5,18 +5,14 @@ import { StudentListComponent } from './student-list/student-list.component';
 import { StudentInformationComponent } from './student-information/student-information.component';
 import { StudentScheduleComponent } from './student-schedule/student-schedule.component';
 import { NotFoundComponent } from '../not-found/not-found.component';
+import { StudentAddComponent } from './student-add/student-add.component';
 
 const routes: Routes = [
   { path: '', component: StudentHomeComponent },
   { path: 'allStudent', component: StudentListComponent },
   { path: 'studentInformation', component: StudentInformationComponent },
   { path: 'studentSchedule', component: StudentScheduleComponent },
-  {
-    path: '**',
-    // redirectTo: 'not-fount',
-    component: NotFoundComponent,
-    pathMatch: 'full',
-  },
+  { path: 'student-add', component: StudentAddComponent },
 ];
 
 @NgModule({
