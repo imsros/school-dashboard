@@ -1,0 +1,100 @@
+<div class="student-add-container">
+  <h2>Add Student</h2>
+  <form [formGroup]="formStudent" (ngSubmit)="onSubmit()">
+    <div class="student-infor">
+      <div class="image-preview">
+        <img [src]="preview" alt="student-image-preview" />
+        <div class="overlay">
+          <mat-icon>cloud_upload</mat-icon>
+          <span>Upload</span>
+        </div>
+        <input
+          id="fileInput"
+          type="file"
+          hidden
+          accept="image/*"
+          (change)="onImageChange($event)"
+          formControlName="image"
+        />
+      </div>
+      <div class="student-add-form">
+        <mat-form-field>
+          <mat-label>First Name</mat-label>
+          <input matInput formControlName="firstName" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Last Name</mat-label>
+          <input matInput formControlName="lastName" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label for="gender">Gender</mat-label>
+          <mat-select id="gender" formControlName="gender">
+            <mat-option value="male">Male</mat-option>
+            <mat-option value="female">Female</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Date of Birth</mat-label>
+          <input matInput placeholder="MM/DD/YY" formControlName="dob" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label for="department">Department</mat-label>
+          <mat-select id="department" formControlName="department">
+            <mat-option value="biology">Biology</mat-option>
+            <mat-option value="chemistry">Chemistry</mat-option>
+            <mat-option value="computerScience">Computer Science</mat-option>
+            <mat-option value="environmentalScience"
+              >Environmental Science</mat-option
+            >
+            <mat-option value="mathematics">Mathematics</mat-option>
+            <mat-option value="physics">Physics</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="student-contact" formArrayName="contact">
+      <div class="add-form-array">
+        <button mat-raised-button color="primary" (click)="addNewContact()">
+          Add student contact
+        </button>
+      </div>
+      <div
+        class="student-contact-form"
+        *ngFor="let group of contact.controls; let i = index"
+        [formGroupName]="i"
+      >
+        <mat-form-field>
+          <mat-label>Username</mat-label>
+          <input matInput formControlName="username" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Relative</mat-label>
+          <input matInput formControlName="relative" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Telephone</mat-label>
+          <input matInput formControlName="telephone" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Address</mat-label>
+          <input matInput formControlName="address" />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="student-add-action" style="margin-top: 20px">
+      <button mat-raised-button color="warn" routerLink="/student/allStudent">
+        Cancel
+      </button>
+      <button mat-raised-button color="primary" (click)="createStudent()">
+        Save
+      </button>
+    </div>
+  </form>
+</div>
+<!-- <pre>{{ formStudent | json }}</pre> -->

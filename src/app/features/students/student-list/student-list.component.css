@@ -11,7 +11,30 @@ td,
 th {
   width: 25%;
 }
-/* .student-list-container {
-  width: 80%;
+.student-list-container {
+  width: 95%;
   margin: auto;
-} */
+}
+h1 {
+  font-family: "Poppins", sans-serif;
+  font-size: 20px;
+  text-align: center;
+  font-weight: 800;
+  color: #831717;
+  margin-top: 20px;
+}
+.header {
+  width: 100%;
+  margin: auto;
+  display: flex;
+  align-items: center;
+}
+.search-side {
+  width: 20%;
+  flex: 1;
+}
+.button-side {
+  width: 80%;
+  display: flex;
+  justify-content: flex-end;
+}

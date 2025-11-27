@@ -22,6 +22,7 @@ export class StudentListComponent implements AfterViewInit {
     'pomegranate',
     'pineapple',
   ];
+
   NAMES: string[] = [
     'Maia',
     'Asher',
@@ -43,6 +44,7 @@ export class StudentListComponent implements AfterViewInit {
     'Thomas',
     'Elizabeth',
   ];
+
   displayedColumns: string[] = ['id', 'name', 'progress', 'fruit'];
   dataSource: MatTableDataSource<UserData>;
 
@@ -72,6 +74,7 @@ export class StudentListComponent implements AfterViewInit {
       this.dataSource.paginator.firstPage();
     }
   }
+
   createNewUser(id: number): UserData {
     const name =
       this.NAMES[Math.round(Math.random() * (this.NAMES.length - 1))] +
