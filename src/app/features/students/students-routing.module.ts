@@ -13,6 +13,7 @@ const routes: Routes = [
   { path: 'studentInformation', component: StudentInformationComponent },
   { path: 'studentSchedule', component: StudentScheduleComponent },
   { path: 'student-add', component: StudentAddComponent },
+  { path: 'student-edit/:id', component: StudentAddComponent}
 ];
 
 @NgModule({

@@ -4,7 +4,7 @@
     <div class="student-infor">
       <div class="image-preview">
         <img [src]="preview" alt="student-image-preview" />
-        <div class="overlay">
+        <div class="overlay" (click)="triggleUpload()">
           <mat-icon>cloud_upload</mat-icon>
           <span>Upload</span>
         </div>
@@ -58,7 +58,12 @@
 
     <div class="student-contact" formArrayName="contact">
       <div class="add-form-array">
-        <button mat-raised-button color="primary" (click)="addNewContact()">
+        <button
+          mat-raised-button
+          color="primary"
+          type="button"
+          (click)="addNewContact()"
+        >
           Add student contact
         </button>
       </div>
@@ -90,9 +95,8 @@
       <button mat-raised-button color="warn" routerLink="/student/allStudent">
         Cancel
       </button>
-      <button mat-raised-button color="primary" (click)="createStudent()">
-        Save
-      </button>
+      <button *ngIf="!edit" mat-raised-button color="primary"type="submit">Save</button>
+      <button *ngIf="edit" (click)="editStudent(studentID)" mat-raised-button color="primary" type="button">Update</button>
     </div>
   </form>
 </div>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Student } from 'src/app/core/model/student.interface';
@@ -9,9 +9,13 @@ import { StudentsService } from 'src/app/core/services/students.service';
   templateUrl: './student-add.component.html',
   styleUrls: ['./student-add.component.css'],
 })
-export class StudentAddComponent {
-  formStudent: FormGroup;
-  students: Student[] = [];
+export class StudentAddComponent implements OnInit{
+  formStudent!: FormGroup;
+  public edit = false;
+  public studentID : string = '';
+  public student : any;
+
+  // public showFormArray = false;
   preview: string | ArrayBuffer | null =
     'https://png.pngtree.com/png-clipart/20210709/ourmid/pngtree-cartoon-blue-purple-instagram-social-cute-female-student-avatar-png-image_3579094.jpg';
   constructor(
@@ -19,40 +23,69 @@ export class StudentAddComponent {
     private studentService: StudentsService,
     private router: Router,
     private route: ActivatedRoute
-  ) {
+  ) {}
+
+  ngOnInit(): void {
+    
+    const id = this.route.snapshot.paramMap.get('id');
+    //get the id that exit into the URL
+    this.studentID = id ? id.toString() : '';   //if the id exist, convert to string, otherwise set to empty string
+    this.edit = id !== null;
+
+    this.formValidate();
+
+    if(this.edit){
+      this.getStudentById();
+      this.getStudentContact();
+    }
+  }
+  //dynamic validator
+  formValidate(){
     this.formStudent = this.fb.group({
-      // image: ['', Validators.required],
-      // firstName: ['', Validators.required],
-      // lastName: ['', Validators.required],
-      // email: ['', [Validators.required, Validators.email]],
-      // dob: ['', Validators.required],
-      // gender: ['', Validators.required],
-      // department: ['', Validators.required],
       image: [''],
       firstName: [''],
-      lastName: [],
-      email: [],
-      dob: [],
-      gender: [],
-      department: [],
+      lastName: [''],
+      email: [''],
+      dob: [''],
+      gender: [''],
+      department: [''],
       contact: this.fb.array([]),
     });
   }
-
-  triggleUpload() {
-    document.getElementById('fileInput')?.click();
+  getStudentById(){
+    this.studentService.getStudentById(this.studentID).subscribe((student) =>{
+      this.formStudent.patchValue({
+        image : student.image,
+        firstName : student.firstName,
+        lastName : student.lastName,
+        email : student.email, 
+        gender : student.gender,
+        dob : student.dob,
+        department : student.department
+      });
+      this.preview = student.image;
+    })
   }
-
-  onImageChange(event: any) {
-    const file = event.target.files[0];
-    if (file) {
-      this.formStudent.patchValue({ image: file });
-      const reader = new FileReader();
-      reader.onload = () => (this.preview = reader.result);
-      reader.readAsDataURL(file);
-    }
+  //get the data in form array
+  //fetch and update
+  getStudentContact(){
+    this.studentService.getStudentById(this.studentID).subscribe((student) =>{
+      if(!student.contact) return;
+      else{
+        this.contact.clear();
+        student.contact.forEach((studentContact:any) => {
+          this.contact.push(
+            this.fb.group({
+              username : [studentContact.username],
+              relative : [studentContact.relative],
+              telephone : [studentContact.telephone],
+              address : [studentContact.address]
+            })
+          )
+        })
+      }
+    })
   }
-
   get contact() {
     return this.formStudent.get('contact') as FormArray;
   }
@@ -60,24 +93,75 @@ export class StudentAddComponent {
   addNewContact() {
     this.contact.push(this.newContact());
   }
-
+  //add
   newContact(): FormGroup {
     return this.fb.group({
-      username: ['', Validators.required],
-      relative: ['', Validators.required],
-      telephone: ['', Validators.required],
-      address: ['', Validators.required],
+      username: [''],
+      relative: [''],
+      telephone: [''],
+      address: [''],
     });
   }
+  //when click on image, we can browse to our local image that exist
+  triggleUpload() {
+    document.getElementById('fileInput')?.click();
+  }
 
+  //tracking on image change, due to we also have default image setter
+  onImageChange(event: any) {
+    const file = event.target.files && event.target.files[0];
+    if (!file) {
+      return;   //if no file selected, function stop.
+    }
+    // console.log('selected file:', {
+    //   name: file.name,
+    //   type: file.type,
+    //   size: file.size,
+    // });
+
+    //FileReader is a js object that can read file (image,pdf, text) from the user's compoter.
+    const reader = new FileReader();
+    // When read completes, set preview and patch the form with the data URL string
+    reader.onload = () => {
+      this.preview = reader.result;  //for using in template by property binding.
+      // store the base64/data URL string in the form so JSON backends (like json-server) can store it
+      this.formStudent.patchValue({ image: reader.result });
+      // console.log(
+      //   'image as dataURL set on form:',
+      //   this.formStudent.get('image')?.value
+      // );
+    };
+    reader.readAsDataURL(file);
+    //this tells FileReader to read the image and convert it to Base64 Data URL
+  }
   onSubmit() {
     if (this.formStudent.invalid) {
-      // return alert('Data validation is invalid...');
-      this.formStudent.markAllAsTouched();
+      return alert('Data validation is invalid...');
+      // this.formStudent.markAllAsTouched();
     } else {
-      console.log(this.createStudent());
-      // console.log('data', this.formStudent.value);
+      // console.log(this.createStudent());
+      // // console.log('data', this.formStudent.value);
+      // return alert('Data validated successfully.');
+      this.student = {
+        //... the spread operator, mean copy all the existing fields, and replace/add the image field with the preview value
+        ...this.formStudent.value,
+        image : this.preview
+      };
+      if(this.edit && this.studentID){
+        alert ('edit');
+        this.editStudent(this.studentID);
+      }else{
+        alert ('add student') 
+        this.createStudent();
+      }
     }
+  }
+
+  editStudent(id : string){
+    this.studentService.updateStudent(id, this.student).subscribe((response) =>{
+      if (!response) return;
+      this.router.navigate(['/student/allStudent']);
+    })
   }
 
   createStudent() {
