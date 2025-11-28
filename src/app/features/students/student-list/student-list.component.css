@@ -1,3 +1,4 @@
+
 table {
   width: 100%;
 }
@@ -5,11 +6,18 @@ table {
 .mat-mdc-form-field {
   font-size: 14px;
   width: 100%;
+  font-family: 'Poppins', sans-serif;
+  
 }
 
-td,
+td{
+  width: 11.11%;
+  font-family: 'Poppins', sans-serif;
+}
 th {
-  width: 25%;
+  width: 11.11%;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 800;
 }
 .student-list-container {
   width: 95%;

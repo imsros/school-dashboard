@@ -4,93 +4,92 @@ import { ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { StudentsService } from 'src/app/core/services/students.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Student } from 'src/app/core/model/student.interface';
+import { OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-student-list',
   templateUrl: './student-list.component.html',
   styleUrls: ['./student-list.component.css'],
 })
-export class StudentListComponent implements AfterViewInit {
-  /** Constants used to fill up our data base. */
-  FRUITS: string[] = [
-    'blueberry',
-    'lychee',
-    'kiwi',
-    'mango',
-    'peach',
-    'lime',
-    'pomegranate',
-    'pineapple',
+export class StudentListComponent implements AfterViewInit, OnInit {
+  students: Student[] = [];
+  public search : string = '';
+  displayedColumns: string[] = [
+    'id',
+    'image',
+    'firstName',
+    'lastName',
+    'email',
+    'gender',
+    'dob',
+    'department',
+    'actions',
   ];
-
-  NAMES: string[] = [
-    'Maia',
-    'Asher',
-    'Olivia',
-    'Atticus',
-    'Amelia',
-    'Jack',
-    'Charlotte',
-    'Theodore',
-    'Isla',
-    'Oliver',
-    'Isabella',
-    'Jasper',
-    'Cora',
-    'Levi',
-    'Violet',
-    'Arthur',
-    'Mia',
-    'Thomas',
-    'Elizabeth',
-  ];
-
-  displayedColumns: string[] = ['id', 'name', 'progress', 'fruit'];
-  dataSource: MatTableDataSource<UserData>;
+  dataSource: MatTableDataSource<Student>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor() {
-    // Create 100 users
-    const users = Array.from({ length: 100 }, (_, k) =>
-      this.createNewUser(k + 1)
-    );
-
-    // Assign the data to the data source for the table to render
-    this.dataSource = new MatTableDataSource(users);
+  constructor(
+    private studentService: StudentsService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
+    this.dataSource = new MatTableDataSource(this.students);
   }
 
+  ngOnInit(): void {
+    this.fetchStudent();
+  }
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
+  fetchStudent(): void {
+    this.studentService.getAllStudent().subscribe((res) => {
+      this.students = res;
+      this.dataSource.data = res;
+      if (this.paginator) {
+        this.dataSource.paginator = this.paginator;
+      }
+      if (this.sort) {
+        this.dataSource.sort = this.sort;
+      }
+    });
   }
 
-  createNewUser(id: number): UserData {
-    const name =
-      this.NAMES[Math.round(Math.random() * (this.NAMES.length - 1))] +
-      ' ' +
-      this.NAMES[Math.round(Math.random() * (this.NAMES.length - 1))].charAt(
-        0
-      ) +
-      '.';
+  //table angular material with default search feature
+  // applyFilter(event: Event) {
+  //   const filterValue = (event.target as HTMLInputElement).value;
+  //   this.dataSource.filter = filterValue.trim().toLowerCase();
+  //   if (this.dataSource.paginator) {
+  //     this.dataSource.paginator.firstPage();
+  //   }
+  // }
 
-    return {
-      id: id.toString(),
-      name: name,
-      progress: Math.round(Math.random() * 100).toString(),
-      fruit: this.FRUITS[Math.round(Math.random() * (this.FRUITS.length - 1))],
-    };
+  searchStudent(){
+    const value = this.search.toLowerCase().trim();
+    this.dataSource = new MatTableDataSource(
+      this.students.filter(
+      (student) => student.firstName.toLowerCase().includes(value) ||
+                student.lastName.toLowerCase().includes(value) ||
+                student.email.toLowerCase().includes(value) ||
+                student.gender.toLowerCase().includes(value) ||
+                student.department.toLowerCase().includes(value)
+    ) 
+    )  }
+
+  deleteStudent(id: string) : void {
+    this.studentService.deleteStudent(id).subscribe(
+    {
+      next : () => { const deleteStudent = this.dataSource.data.filter(s => s.id !== id);
+        this.dataSource.data = deleteStudent;
+       },
+       error : () => alert('Failed to delete student.')
+    })
   }
 }
-
-/** Builds and returns a new User. */
