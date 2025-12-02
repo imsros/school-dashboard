@@ -5,12 +5,14 @@ import { LecturerListComponent } from './lecturer-list/lecturer-list.component';
 import { LecturerManagementComponent } from './lecturer-management/lecturer-management.component';
 import { LecturerScheduleComponent } from './lecturer-schedule/lecturer-schedule.component';
 import { NotFoundComponent } from '../not-found/not-found.component';
+import { LecturerAddComponent } from './lecturer-add/lecturer-add.component';
 
 const routes: Routes = [
   { path: '', component: LecturerHomeComponent },
   { path: 'allLecturer', component: LecturerListComponent },
   { path: 'lecturerManagement', component: LecturerManagementComponent },
   { path: 'lecturerSchedule', component: LecturerScheduleComponent },
+  { path: 'edit/:id', component : LecturerListComponent}, //using the same component due to using dialog for open new add form 
   { path: '**', component: NotFoundComponent },
 ];
 

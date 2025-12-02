@@ -8,13 +8,7 @@
           <mat-icon>cloud_upload</mat-icon>
           <span>Upload</span>
         </div>
-        <input
-          id="fileInput"
-          type="file"
-          hidden
-          accept="image/*"
-          (change)="onImageChange($event)"
-        />
+        <input id="fileInput" type="file" hidden accept="image/*" (change)="onImageChange($event)" />
       </div>
       <div class="student-add-form">
         <mat-form-field>
@@ -46,9 +40,7 @@
             <mat-option value="biology">Biology</mat-option>
             <mat-option value="chemistry">Chemistry</mat-option>
             <mat-option value="computerScience">Computer Science</mat-option>
-            <mat-option value="environmentalScience"
-              >Environmental Science</mat-option
-            >
+            <mat-option value="environmentalScience">Environmental Science</mat-option>
             <mat-option value="mathematics">Mathematics</mat-option>
             <mat-option value="physics">Physics</mat-option>
           </mat-select>
@@ -58,20 +50,11 @@
 
     <div class="student-contact" formArrayName="contact">
       <div class="add-form-array">
-        <button
-          mat-raised-button
-          color="primary"
-          type="button"
-          (click)="addNewContact()"
-        >
+        <button mat-raised-button color="primary" type="button" (click)="addNewContact()">
           Add student contact
         </button>
       </div>
-      <div
-        class="student-contact-form"
-        *ngFor="let group of contact.controls; let i = index"
-        [formGroupName]="i"
-      >
+      <div class="student-contact-form" *ngFor="let group of contact.controls; let i = index" [formGroupName]="i">
         <mat-form-field>
           <mat-label>Username</mat-label>
           <input matInput formControlName="username" />
@@ -95,9 +78,9 @@
       <button mat-raised-button color="warn" routerLink="/student/allStudent">
         Cancel
       </button>
-      <button *ngIf="!edit" mat-raised-button color="primary"type="submit">Save</button>
-      <button *ngIf="edit" (click)="editStudent(studentID)" mat-raised-button color="primary" type="button">Update</button>
+      <button *ngIf="!edit" mat-raised-button color="primary" type="submit">Save</button>
+      <button *ngIf="edit" (click)="editStudent(studentID)" mat-raised-button color="primary"
+        type="button">Update</button>
     </div>
   </form>
 </div>
-<!-- <pre>{{ formStudent | json }}</pre> -->

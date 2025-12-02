@@ -7,6 +7,9 @@ import { LecturerListComponent } from './lecturer-list/lecturer-list.component';
 import { LecturerManagementComponent } from './lecturer-management/lecturer-management.component';
 import { LecturerScheduleComponent } from './lecturer-schedule/lecturer-schedule.component';
 import { ShareModule } from 'src/app/shared/share.module';
+import { MaterialModule } from 'src/app/environment/MaterialModule';
+import { LecturerAddComponent } from './lecturer-add/lecturer-add.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -14,7 +17,8 @@ import { ShareModule } from 'src/app/shared/share.module';
     LecturerListComponent,
     LecturerManagementComponent,
     LecturerScheduleComponent,
+    LecturerAddComponent,
   ],
-  imports: [CommonModule, LecturerRoutingModule, ShareModule],
+  imports: [CommonModule, LecturerRoutingModule, ShareModule, MaterialModule, FormsModule, ReactiveFormsModule],
 })
-export class LecturerModule {}
+export class LecturerModule { }

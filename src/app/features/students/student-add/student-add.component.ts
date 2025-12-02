@@ -9,11 +9,11 @@ import { StudentsService } from 'src/app/core/services/students.service';
   templateUrl: './student-add.component.html',
   styleUrls: ['./student-add.component.css'],
 })
-export class StudentAddComponent implements OnInit{
+export class StudentAddComponent implements OnInit {
   formStudent!: FormGroup;
   public edit = false;
-  public studentID : string = '';
-  public student : any;
+  public studentID: string = '';
+  public student: any;
 
   // public showFormArray = false;
   preview: string | ArrayBuffer | null =
@@ -23,10 +23,10 @@ export class StudentAddComponent implements OnInit{
     private studentService: StudentsService,
     private router: Router,
     private route: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    
+
     const id = this.route.snapshot.paramMap.get('id');
     //get the id that exit into the URL
     this.studentID = id ? id.toString() : '';   //if the id exist, convert to string, otherwise set to empty string
@@ -34,13 +34,13 @@ export class StudentAddComponent implements OnInit{
 
     this.formValidate();
 
-    if(this.edit){
+    if (this.edit) {
       this.getStudentById();
       this.getStudentContact();
     }
   }
   //dynamic validator
-  formValidate(){
+  formValidate() {
     this.formStudent = this.fb.group({
       image: [''],
       firstName: [''],
@@ -52,48 +52,47 @@ export class StudentAddComponent implements OnInit{
       contact: this.fb.array([]),
     });
   }
-  getStudentById(){
-    this.studentService.getStudentById(this.studentID).subscribe((student) =>{
+  getStudentById() {
+    this.studentService.getStudentById(this.studentID).subscribe((student) => {
       this.formStudent.patchValue({
-        image : student.image,
-        firstName : student.firstName,
-        lastName : student.lastName,
-        email : student.email, 
-        gender : student.gender,
-        dob : student.dob,
-        department : student.department
+        image: student.image,
+        firstName: student.firstName,
+        lastName: student.lastName,
+        email: student.email,
+        gender: student.gender,
+        dob: student.dob,
+        department: student.department
       });
       this.preview = student.image;
     })
   }
   //get the data in form array
   //fetch and update
-  getStudentContact(){
-    this.studentService.getStudentById(this.studentID).subscribe((student) =>{
-      if(!student.contact) return;
-      else{
+  getStudentContact() {
+    this.studentService.getStudentById(this.studentID).subscribe((student) => {
+      if (!student.contact) return;
+      else {
         this.contact.clear();
-        student.contact.forEach((studentContact:any) => {
+        student.contact.forEach((studentContact: any) => {
           this.contact.push(
             this.fb.group({
-              username : [studentContact.username],
-              relative : [studentContact.relative],
-              telephone : [studentContact.telephone],
-              address : [studentContact.address]
+              username: [studentContact.username],
+              relative: [studentContact.relative],
+              telephone: [studentContact.telephone],
+              address: [studentContact.address]
             })
           )
         })
       }
     })
   }
+  //helper method, which returns the contact FormArray from the model 
   get contact() {
     return this.formStudent.get('contact') as FormArray;
   }
 
-  addNewContact() {
-    this.contact.push(this.newContact());
-  }
   //add
+  //the newContact method creates a new contact FormGroup and returns it. It has 4 properties.
   newContact(): FormGroup {
     return this.fb.group({
       username: [''],
@@ -101,6 +100,11 @@ export class StudentAddComponent implements OnInit{
       telephone: [''],
       address: [''],
     });
+  }
+
+  //next, the method to add an contact. It uses the newContact method which returns the Contact FormGroup and add contact array.
+  addNewContact() {
+    this.contact.push(this.newContact());
   }
   //when click on image, we can browse to our local image that exist
   triggleUpload() {
@@ -145,20 +149,19 @@ export class StudentAddComponent implements OnInit{
       this.student = {
         //... the spread operator, mean copy all the existing fields, and replace/add the image field with the preview value
         ...this.formStudent.value,
-        image : this.preview
+        image: this.preview
       };
-      if(this.edit && this.studentID){
-        alert ('edit');
+      if (this.edit && this.studentID) {
+        alert('edit');
         this.editStudent(this.studentID);
-      }else{
-        alert ('add student') 
+      } else {
+        alert('add student')
         this.createStudent();
       }
     }
   }
-
-  editStudent(id : string){
-    this.studentService.updateStudent(id, this.student).subscribe((response) =>{
+  editStudent(id: string) {
+    this.studentService.updateStudent(id, this.student).subscribe((response) => {
       if (!response) return;
       this.router.navigate(['/student/allStudent']);
     })

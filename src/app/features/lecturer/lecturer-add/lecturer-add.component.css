@@ -1,0 +1,69 @@
+.example-form {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.form-add {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.form-array {
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+}
+
+
+.image-preview {
+    width: 150px;
+    height: 150px;
+    /* border-radius: 50%; */
+    overflow: hidden;
+    border: 5px solid #bdbdbd;
+    position: relative;
+    cursor: pointer;
+
+}
+
+.image-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto;
+}
+
+.overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: 0.25s ease;
+    font-size: 14px;
+}
+
+.image-preview:hover .overlay {
+    opacity: 1;
+}
+
+.overlay mat-icon {
+    font-size: 32px;
+    margin-bottom: 4px;
+}
+
+
+.available-box mat-form-field {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    width: 80%;
+}
