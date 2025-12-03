@@ -1,5 +1,5 @@
 <div class="student-add-container">
-  <h2>Add Student</h2>
+  <h2>{{studentID? 'Update' : 'Add'}}</h2>
   <form [formGroup]="formStudent" (ngSubmit)="onSubmit()">
     <div class="student-infor">
       <div class="image-preview">
@@ -14,36 +14,53 @@
         <mat-form-field>
           <mat-label>First Name</mat-label>
           <input matInput formControlName="firstName" />
+          <mat-error>First Name is required.</mat-error>
         </mat-form-field>
         <mat-form-field>
           <mat-label>Last Name</mat-label>
           <input matInput formControlName="lastName" />
+          <mat-error>Last Name is required.</mat-error>
         </mat-form-field>
         <mat-form-field>
           <mat-label>Email</mat-label>
           <input matInput formControlName="email" />
+          <mat-error *ngIf="formStudent.get('email')?.hasError('required')">Email is required.</mat-error>
+          <mat-error *ngIf="formStudent.get('email')?.hasError('email')">
+            Incorrect email formart.
+          </mat-error>
         </mat-form-field>
         <mat-form-field>
-          <mat-label for="gender">Gender</mat-label>
+          <mat-label for="gender">Gender </mat-label>
+
           <mat-select id="gender" formControlName="gender">
-            <mat-option value="male">Male</mat-option>
-            <mat-option value="female">Female</mat-option>
+            <mat-option *ngFor="let item of genders" [value]="item.value">{{item.value | gender}}</mat-option>
+
+            <!-- <mat-option [value]="'F'">Female</mat-option>
+            <mat-option [value]="'M'">Male</mat-option> -->
           </mat-select>
+          <mat-error>Gender is required.</mat-error>
         </mat-form-field>
         <mat-form-field>
-          <mat-label>Date of Birth</mat-label>
-          <input matInput placeholder="MM/DD/YY" formControlName="dob" />
+          <mat-label>Date of Birth </mat-label>
+          <!-- <input matInput placeholder="MM/DD/YY" formControlName="dob" /> -->
+          <input matInput [matDatepicker]="picker" formControlName="dob">
+          <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error>Date of Birth is required.</mat-error>
         </mat-form-field>
         <mat-form-field>
           <mat-label for="department">Department</mat-label>
           <mat-select id="department" formControlName="department">
-            <mat-option value="biology">Biology</mat-option>
+            <!-- <mat-option value="biology">Biology</mat-option>
             <mat-option value="chemistry">Chemistry</mat-option>
             <mat-option value="computerScience">Computer Science</mat-option>
             <mat-option value="environmentalScience">Environmental Science</mat-option>
-            <mat-option value="mathematics">Mathematics</mat-option>
-            <mat-option value="physics">Physics</mat-option>
+            <mat-option value="mathematics">Mathematics</mat-option> -->
+            <mat-option *ngFor="let departments of departmentOptions"
+              [value]="departments.value">{{departments.department}}</mat-option>
           </mat-select>
+          <mat-error>Department field is required.</mat-error>
         </mat-form-field>
       </div>
     </div>
@@ -58,18 +75,22 @@
         <mat-form-field>
           <mat-label>Username</mat-label>
           <input matInput formControlName="username" />
+          <mat-error>Username is required.</mat-error>
         </mat-form-field>
         <mat-form-field>
           <mat-label>Relative</mat-label>
           <input matInput formControlName="relative" />
+          <mat-error>Relative is required.</mat-error>
         </mat-form-field>
         <mat-form-field>
           <mat-label>Telephone</mat-label>
           <input matInput formControlName="telephone" />
+          <mat-error>Telephone is required.</mat-error>
         </mat-form-field>
         <mat-form-field>
           <mat-label>Address</mat-label>
           <input matInput formControlName="address" />
+          <mat-error>Address is required.</mat-error>
         </mat-form-field>
       </div>
     </div>
@@ -81,6 +102,10 @@
       <button *ngIf="!edit" mat-raised-button color="primary" type="submit">Save</button>
       <button *ngIf="edit" (click)="editStudent(studentID)" mat-raised-button color="primary"
         type="button">Update</button>
+      <p><strong>Current Gender:</strong> {{ formStudent.value.gender | gender }}</p>
+      <p><strong>Current DOB:</strong> {{ formStudent.value.dob | date: 'mediumDate' }}</p>
     </div>
   </form>
 </div>
+
+<pre>{{formStudent.value| json}}</pre>

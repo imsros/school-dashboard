@@ -22,6 +22,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ShareModule } from './shared/share.module';
 import { StudentsModule } from './features/students/students.module';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,4 +50,4 @@ import { StudentsModule } from './features/students/students.module';
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

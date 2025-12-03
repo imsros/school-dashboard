@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Student } from 'src/app/core/model/student.interface';
+import { Departments, Student } from 'src/app/core/model/student.interface';
 import { StudentsService } from 'src/app/core/services/students.service';
 
 @Component({
@@ -13,8 +13,20 @@ export class StudentAddComponent implements OnInit {
   formStudent!: FormGroup;
   public edit = false;
   public studentID: string = '';
-  public student: any;
+  public genders = [
+    { label: 'Male', value: 'M' },
+    { label: 'Female', value: 'F' }
+  ]
 
+
+  departmentOptions: Departments[] = [
+    { department: 'Biology', value: 'Biology' },
+    { department: 'Chemistry', value: 'Chemistry' },
+    { department: 'Computer Science', value: 'Computer Science' },
+    { department: 'Environmental Science', value: 'Environmental Science' },
+    { department: 'Mathematics', value: 'Mathematics' },
+    { department: 'Physics', value: 'Physics' }
+  ]
   // public showFormArray = false;
   preview: string | ArrayBuffer | null =
     'https://png.pngtree.com/png-clipart/20210709/ourmid/pngtree-cartoon-blue-purple-instagram-social-cute-female-student-avatar-png-image_3579094.jpg';
@@ -42,13 +54,13 @@ export class StudentAddComponent implements OnInit {
   //dynamic validator
   formValidate() {
     this.formStudent = this.fb.group({
-      image: [''],
-      firstName: [''],
-      lastName: [''],
-      email: [''],
-      dob: [''],
-      gender: [''],
-      department: [''],
+      image: ['', Validators.required],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      dob: ['', Validators.required],
+      gender: ['', Validators.required],
+      department: ['', Validators.required],
       contact: this.fb.array([]),
     });
   }
@@ -63,6 +75,7 @@ export class StudentAddComponent implements OnInit {
         dob: student.dob,
         department: student.department
       });
+      console.log(this.formStudent.value, 'form')
       this.preview = student.image;
     })
   }
@@ -95,10 +108,10 @@ export class StudentAddComponent implements OnInit {
   //the newContact method creates a new contact FormGroup and returns it. It has 4 properties.
   newContact(): FormGroup {
     return this.fb.group({
-      username: [''],
-      relative: [''],
-      telephone: [''],
-      address: [''],
+      username: ['', Validators.required],
+      relative: ['', Validators.required],
+      telephone: ['', Validators.required],
+      address: ['', Validators.required],
     });
   }
 
@@ -146,11 +159,7 @@ export class StudentAddComponent implements OnInit {
       // console.log(this.createStudent());
       // // console.log('data', this.formStudent.value);
       // return alert('Data validated successfully.');
-      this.student = {
-        //... the spread operator, mean copy all the existing fields, and replace/add the image field with the preview value
-        ...this.formStudent.value,
-        image: this.preview
-      };
+
       if (this.edit && this.studentID) {
         alert('edit');
         this.editStudent(this.studentID);
@@ -161,7 +170,7 @@ export class StudentAddComponent implements OnInit {
     }
   }
   editStudent(id: string) {
-    this.studentService.updateStudent(id, this.student).subscribe((response) => {
+    this.studentService.updateStudent(id, this.formStudent.value).subscribe((response) => {
       if (!response) return;
       this.router.navigate(['/student/allStudent']);
     })

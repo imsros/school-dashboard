@@ -5,6 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DaysOption, Lecturer } from 'src/app/core/model/lecturere.interface';
 import { LecturerService } from 'src/app/core/services/lecturer.service';
 import { ActivatedRoute, Router } from '@angular/router';
+
 @Component({
   selector: 'app-lecturer-add',
   templateUrl: './lecturer-add.component.html',
@@ -17,7 +18,8 @@ export class LecturerAddComponent implements OnInit {
 
   lecturer: Lecturer[] = []; //array instance of interface
 
-  constructor(public dialog: MatDialog, private fb: FormBuilder, private lecturerService: LecturerService, private router: Router, private route: ActivatedRoute) { }
+  constructor(public dialog: MatDialog, private fb: FormBuilder, private lecturerService: LecturerService, private router: Router, private route: ActivatedRoute, public dialogRef: MatDialogRef<LecturerAddComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: string,) { }
 
   daysOptions: DaysOption[] = [
     { day: 'Monday', value: 'monday' },
@@ -30,6 +32,7 @@ export class LecturerAddComponent implements OnInit {
 
   ngOnInit(): void {
     this.formValidate();
+    console.log(this.data);
   }
 
 
@@ -118,7 +121,6 @@ export class LecturerAddComponent implements OnInit {
   createLecturer() {
     this.lecturerService.createLecturer(this.formLecturer.value).subscribe((value) => {
       console.log(value, 'data');
-      this.router.navigate(['/lecturer/allLecturer']);
     })
   }
 
@@ -126,7 +128,7 @@ export class LecturerAddComponent implements OnInit {
     if (this.formLecturer.invalid) return alert('form validation failed');
     else {
       this.createLecturer();
-      alert('Lecturer created successfully');
+      // alert('Lecturer created successfully');
     }
   }
 

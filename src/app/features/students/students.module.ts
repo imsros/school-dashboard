@@ -11,6 +11,8 @@ import { MaterialModule } from 'src/app/environment/MaterialModule';
 import { StudentAddComponent } from './student-add/student-add.component';
 import { StudentContactComponent } from './student-contact/student-contact.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DatePipe } from '@angular/common';
+import { GenderPipe } from 'src/app/core/pipe/gender.pipe';
 
 @NgModule({
   declarations: [
@@ -20,6 +22,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     StudentScheduleComponent,
     StudentAddComponent,
     StudentContactComponent,
+    GenderPipe
   ],
   imports: [
     CommonModule,
@@ -28,6 +31,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
+    DatePipe
   ],
   exports: [
     StudentListComponent,
@@ -36,4 +40,4 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     StudentScheduleComponent,
   ],
 })
-export class StudentsModule {}
+export class StudentsModule { }

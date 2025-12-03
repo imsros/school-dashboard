@@ -1,6 +1,5 @@
 export interface Lecturer {
     id: string;
-    position: number;
     username: string;
     email: string;
     phone: number;
@@ -13,6 +12,7 @@ export interface DaysOption {
     day: string;
     value: string;
 }
+
 export interface Available_Hour {
     day: string;
     hours: string[]
