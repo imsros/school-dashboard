@@ -14,10 +14,9 @@ import { LecturerService } from 'src/app/core/services/lecturer.service';
   styleUrls: ['./lecturer-list.component.css']
 })
 export class LecturerListComponent implements OnInit {
-  displayedColumns: string[] = ['position', 'id', 'username', 'email', 'phone', 'profession', 'available_hour', 'image', 'actions'];
+  displayedColumns: string[] = ['id', 'username', 'email', 'phone', 'profession', 'available_hour', 'image', 'actions'];
   ELEMENT_DATA: Lecturer[] = [];
   dataSource = this.ELEMENT_DATA;
-  lecturer = this.ELEMENT_DATA;
   clickedRows = new Set<Lecturer>();
 
   constructor(public dialog: MatDialog, private lecturerService: LecturerService) { }
@@ -32,10 +31,13 @@ export class LecturerListComponent implements OnInit {
       this.dataSource = response;
     })
   }
-  openDialog() {
-    const dialogRef = this.dialog.open(LecturerAddComponent);
+  openDialog(id?: string) {
+    const dialogRef = this.dialog.open(LecturerAddComponent, {
+      data: id
+    });
 
     dialogRef.afterClosed().subscribe(result => {
+      this.fetchLecturer();
       console.log(`Dialog result : ${result}`);
     });
   }
@@ -49,5 +51,19 @@ export class LecturerListComponent implements OnInit {
       .join(', ');
   }
 
+
+  deleteLecturerById(id: string) {
+    this.lecturerService.deleteLecturer(id).subscribe({
+      next: () => {
+        const lecturerID = this.dataSource.filter(find => find.id !== id);
+        this.dataSource = lecturerID;
+      },
+      error: () => { alert('Failed to delete lecturer.') }
+    })
+  }
+
+  edit(id: string) {
+    this.openDialog(id);
+  }
 
 }

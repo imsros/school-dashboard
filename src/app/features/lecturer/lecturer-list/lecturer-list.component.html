@@ -19,23 +19,17 @@
 
 
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table">
-    <!-- Position Column -->
-    <ng-container matColumnDef="position">
-      <th mat-header-cell *matHeaderCellDef>No.</th>
-      <td mat-cell *matCellDef="let element">{{element.position}}</td>
-    </ng-container>
+
 
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef>ID</th>
       <td mat-cell *matCellDef="let element">{{element.id}}</td>
     </ng-container>
-    <!-- Name Column -->
     <ng-container matColumnDef="username">
       <th mat-header-cell *matHeaderCellDef>Name</th>
       <td mat-cell *matCellDef="let element">{{element.username}}</td>
     </ng-container>
 
-    <!-- Weight Column -->
     <ng-container matColumnDef="email">
       <th mat-header-cell *matHeaderCellDef>Email</th>
       <td mat-cell *matCellDef="let element">{{element.email}}</td>
@@ -66,10 +60,10 @@
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>Actions</th>
       <td mat-cell *matCellDef="let row">
-        <button mat-icon-button color="accent" aria-label="Edit Student" [routerLink]="">
+        <button mat-icon-button color="accent" aria-label="Edit Student" (click)="edit(row.id)">
           <mat-icon>edit</mat-icon>
         </button>
-        <button mat-icon-button color="warn" aria-label="Delete Student">
+        <button mat-icon-button color="warn" (click)="deleteLecturerById(row.id)" aria-label="Delete Student">
           <mat-icon>delete</mat-icon>
         </button>
       </td>
@@ -80,7 +74,7 @@
       *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
 
-  <div>
+  <!-- <div>
     <h3>
       Click Log
     </h3>
@@ -94,5 +88,5 @@
     <li *ngFor="let clickedRow of clickedRows">
       Clicked on lecturer name {{clickedRow.username}}, professing in {{clickedRow.profession}}
     </li>
-  </ul>
+  </ul> -->
 </div>

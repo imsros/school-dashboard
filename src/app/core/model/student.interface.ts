@@ -1,5 +1,6 @@
 export interface Student {
   id: string;
+  position: number;
   image: string;
   firstName: string;
   lastName: string;
@@ -15,4 +16,9 @@ export interface Student {
       address: string;
     }
   ];
+}
+
+export interface Departments {
+  department: string;
+  value: string;
 }

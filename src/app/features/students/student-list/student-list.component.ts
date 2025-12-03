@@ -16,8 +16,9 @@ import { OnInit } from '@angular/core';
 })
 export class StudentListComponent implements AfterViewInit, OnInit {
   students: Student[] = [];
-  public search : string = '';
+  public search: string = '';
   displayedColumns: string[] = [
+    'position',
     'id',
     'image',
     'firstName',
@@ -71,25 +72,27 @@ export class StudentListComponent implements AfterViewInit, OnInit {
   //   }
   // }
 
-  searchStudent(){
+  searchStudent() {
     const value = this.search.toLowerCase().trim();
     this.dataSource = new MatTableDataSource(
       this.students.filter(
-      (student) => student.firstName.toLowerCase().includes(value) ||
-                student.lastName.toLowerCase().includes(value) ||
-                student.email.toLowerCase().includes(value) ||
-                student.gender.toLowerCase().includes(value) ||
-                student.department.toLowerCase().includes(value)
-    ) 
-    )  }
+        (student) => student.firstName.toLowerCase().includes(value) ||
+          student.lastName.toLowerCase().includes(value) ||
+          student.email.toLowerCase().includes(value) ||
+          student.gender.toLowerCase().includes(value) ||
+          student.department.toLowerCase().includes(value)
+      )
+    )
+  }
 
-  deleteStudent(id: string) : void {
+  deleteStudent(id: string): void {
     this.studentService.deleteStudent(id).subscribe(
-    {
-      next : () => { const deleteStudent = this.dataSource.data.filter(s => s.id !== id);
-        this.dataSource.data = deleteStudent;
-       },
-       error : () => alert('Failed to delete student.')
-    })
+      {
+        next: () => {
+          const deleteStudent = this.dataSource.data.filter(s => s.id !== id);
+          this.dataSource.data = deleteStudent;
+        },
+        error: () => alert('Failed to delete student.')
+      })
   }
 }
