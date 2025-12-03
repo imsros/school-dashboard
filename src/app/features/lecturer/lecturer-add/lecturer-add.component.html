@@ -1,0 +1,135 @@
+<h2 mat-dialog-title>Lecturer Add</h2>
+
+<mat-dialog-content>
+    <form [formGroup]="formLecturer" class="example-form" (ngSubmit)="onSubmit()">
+
+        <div class="form-add">
+
+            <!-- ID -->
+            <mat-form-field class="example-full-width">
+                <mat-label>ID</mat-label>
+                <input matInput formControlName="id" placeholder="Ex. 1001AU">
+            </mat-form-field>
+
+            <!-- Username -->
+            <mat-form-field class="example-full-width">
+                <mat-label>Username</mat-label>
+                <input matInput formControlName="username" placeholder="Ex. Sok Chenda">
+            </mat-form-field>
+
+            <!-- Email -->
+            <mat-form-field class="example-full-width">
+                <mat-label>Email</mat-label>
+                <input matInput type="email" formControlName="email" placeholder="Ex. da@gmail.com">
+            </mat-form-field>
+
+            <!-- Phone -->
+            <mat-form-field class="example-full-width">
+                <mat-label>Telephone</mat-label>
+                <span matPrefix>+855&nbsp;</span>
+                <input matInput formControlName="phone" placeholder="69-66-56-57">
+            </mat-form-field>
+
+            <!-- Image Upload -->
+            <div class="image-preview">
+                <img [src]="preview" alt="lecturer-image-preview" />
+
+                <div class="overlay" (click)="triggleUpload()">
+                    <mat-icon>cloud_upload</mat-icon>
+                    <span>Upload</span>
+                </div>
+
+                <input id="fileInput" type="file" hidden accept="image/*" (change)="onImageChange($event)"
+                    formControlName="image" />
+            </div>
+        </div>
+
+        <div class="form-array">
+            <div formArrayName="profession">
+
+
+                <div *ngFor="let p of professionArray.controls; let i = index" class="profession-add">
+                    <mat-form-field class="example-full-width" style="margin-top: 20px;">
+                        <mat-label>Profession {{ i + 1 }}</mat-label>
+                        <input matInput [formControlName]="i">
+                    </mat-form-field>
+                    <button mat-icon-button class="btn-delete" color="warn" (click)="removeProfession(i)">
+                        <i class="fa-regular fa-trash-can" style="font-size: 18px;"></i>
+                    </button>
+
+
+                </div>
+                <button mat-stroked-button color="primary" type="button" (click)="addProfession()">
+                    Add Profession
+                </button>
+
+            </div>
+
+            <div formArrayName="available_hour">
+
+
+                <div data-hero="1" *ngFor="let available of availableArray.controls; let i = index" [formGroupName]="i"
+                    class="available-box"
+                    style="border: 1px solid rgba(161, 147, 147, 0.164); padding: 10px; border-radius: 10px;">
+
+                    <!-- Day -->
+                    <mat-form-field style="margin-top: 20px;">
+                        <mat-label>Day</mat-label>
+                        <mat-select formControlName="day">
+                            <!-- <mat-option value="Monday">Monday</mat-option>
+                        <mat-option value="Tuesday">Tuesday</mat-option>
+                        <mat-option value="Wednesday">Wednesday</mat-option>
+                        <mat-option value="Thursday">Thursday</mat-option>
+                        <mat-option value="Friday">Friday</mat-option>S
+                        <mat-option value="Saturday">Saturday</mat-option>
+                        <mat-option value="Sunday">Sunday</mat-option> -->
+                            <mat-option *ngFor="let dayOne of daysOptions"
+                                [value]="dayOne.value">{{dayOne.day}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <div formArrayName="hours" class="hours-list">
+
+
+
+                        <div *ngFor="let h of getHourArray(i).controls; let j = index" class="add-hour">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Hour {{ j + 1 }}</mat-label>
+                                <input matInput [formControlName]="j" placeholder="Ex. 7:00AM - 11:00AM">
+                            </mat-form-field>
+
+                            <button mat-icon-button class="btn-delete" color="warn" (click)="removeHour(i, j)">
+                                <i class="fa-regular fa-trash-can" style="font-size: 18px;"></i>
+                            </button>
+                        </div>
+                        <button mat-button color="accent" type="button" (click)="addHour(i)">
+                            Add Hour
+                        </button>
+
+
+                    </div>
+
+                    <!-- Remove Day -->
+                    <button mat-stroked-button color="warn" type="button" (click)="removeAvailableHour(i)">
+                        Remove Day
+                    </button>
+
+
+                </div>
+                <button mat-stroked-button color="primary" type="button" (click)="addAvailableHour()">
+                    Add Day
+                </button>
+            </div>
+        </div>
+
+
+
+        <mat-dialog-actions align="end">
+            <button mat-button mat-dialog-close color="warn">Cancel</button>
+            <button mat-button color="primary" [mat-dialog-close]="true" type="submit">Save</button>
+        </mat-dialog-actions>
+    </form>
+</mat-dialog-content>
+<pre>
+    {{formLecturer.value| json}}
+</pre>
