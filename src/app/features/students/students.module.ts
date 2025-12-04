@@ -13,6 +13,8 @@ import { StudentContactComponent } from './student-contact/student-contact.compo
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { GenderPipe } from 'src/app/core/pipe/gender.pipe';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { DeleteDialogComponent } from './student-list/delete-dialog/delete-dialog.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,8 @@ import { GenderPipe } from 'src/app/core/pipe/gender.pipe';
     StudentScheduleComponent,
     StudentAddComponent,
     StudentContactComponent,
-    GenderPipe
+    GenderPipe,
+    DeleteDialogComponent
   ],
   imports: [
     CommonModule,
@@ -31,7 +34,8 @@ import { GenderPipe } from 'src/app/core/pipe/gender.pipe';
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
-    DatePipe
+    DatePipe,
+    MatTooltipModule
   ],
   exports: [
     StudentListComponent,

@@ -5,4 +5,34 @@
   align-items: center;
   margin-top: 100px;
   gap: 30px;
+  /* overflow-x: scroll; */
+}
+
+@media only screen and (max-width: 600px) {
+  .dashboard-container {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+
+  }
+
+  ::ng-deep .mat-drawer-transition .mat-drawer-content {
+    margin-left: 0 !important;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .dashboard-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+  }
+}
+
+@media only screen and (min-width: 992px) {
+  .dashboard-container {
+    display: flex;
+    flex-direction: row;
+    margin-top: 100px;
+  }
 }

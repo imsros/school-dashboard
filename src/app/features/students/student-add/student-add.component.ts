@@ -54,7 +54,7 @@ export class StudentAddComponent implements OnInit {
   //dynamic validator
   formValidate() {
     this.formStudent = this.fb.group({
-      image: ['', Validators.required],
+      image: [''],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -108,10 +108,10 @@ export class StudentAddComponent implements OnInit {
   //the newContact method creates a new contact FormGroup and returns it. It has 4 properties.
   newContact(): FormGroup {
     return this.fb.group({
-      username: ['', Validators.required],
-      relative: ['', Validators.required],
-      telephone: ['', Validators.required],
-      address: ['', Validators.required],
+      username: [''],
+      relative: [''],
+      telephone: [''],
+      address: ['',],
     });
   }
 

@@ -6,3 +6,15 @@
   margin-top: 100px;
   gap: 30px;
 }
+
+@media only screen and (max-width: 600px) {
+  .staff-home-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+  }
+
+  ::ng-deep .mat-drawer-transition .mat-drawer-content {
+    margin-left: 0 !important;
+  }
+}

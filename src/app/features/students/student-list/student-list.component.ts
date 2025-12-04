@@ -8,6 +8,9 @@ import { StudentsService } from 'src/app/core/services/students.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Student } from 'src/app/core/model/student.interface';
 import { OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
+import { DialogRef } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'app-student-list',
@@ -37,7 +40,8 @@ export class StudentListComponent implements AfterViewInit, OnInit {
   constructor(
     private studentService: StudentsService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public dialog: MatDialog
   ) {
     this.dataSource = new MatTableDataSource(this.students);
   }
@@ -95,4 +99,18 @@ export class StudentListComponent implements AfterViewInit, OnInit {
         error: () => alert('Failed to delete student.')
       })
   }
-}
+
+  openDialog(row: any): void {
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      width: '250px',
+      data: { id: row.id }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'OK') {
+        this.deleteStudent(row.id);
+      }
+    })
+
+  }
+
+} 

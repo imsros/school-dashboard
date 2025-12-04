@@ -9,15 +9,19 @@ table {
 
 }
 
-td {
-  width: 11.11%;
+/* td {
+  min-width: 10%;
   font-family: 'Poppins', sans-serif;
 }
 
 th {
-  width: 11.11%;
+  min-width: 10%;
   font-family: 'Poppins', sans-serif;
   font-weight: 800;
+} */
+td,
+th {
+  white-space: nowrap;
 }
 
 .student-list-container {
@@ -33,22 +37,103 @@ h1 {
   font-weight: bold;
   color: #3f51b5;
   margin-top: 20px;
+
 }
+
 
 .header {
   width: 100%;
   margin: auto;
   display: flex;
+  justify-content: flex-end;
   align-items: center;
+  gap: 20px;
+  margin-top: 50px;
+  /* align-items: center; */
 }
 
-.search-side {
-  width: 20%;
+.header-title {
+  display: flex;
   flex: 1;
 }
 
-.button-side {
-  width: 80%;
-  display: flex;
-  justify-content: flex-end;
+.search-side mat-form-field {
+  height: 70px;
+}
+
+@media only screen and (max-width: 600px) {
+  .header {
+    width: 100%;
+  }
+
+  .search-side {
+    width: 30%;
+  }
+
+  .student-list-table {
+    overflow-x: auto;
+  }
+
+  /* .student-list-table table {
+    min-width: 600px;
+  } */
+
+  .student-list-table mat-paginator {
+    position: fixed;
+  }
+
+  /* :host ::ng-deep .mat-sort-header-content {
+    min-width: 100px;
+  } */
+  :host ::ng-deep .mat-sort-header-content {
+    min-width: auto;
+  }
+
+  td:nth-last-child(1) {
+    display: flex;
+    padding: 10px;
+  }
+
+  ::ng-deep .mat-drawer-transition .mat-drawer-content {
+    margin-left: 0 !important;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+
+  .student-list-table {
+    overflow-x: auto;
+  }
+
+  /* .student-list-table table {
+    min-width: 600px;
+  } */
+
+  .student-list-table mat-paginator {
+    width: 100%;
+    position: fixed;
+  }
+
+  :host ::ng-deep .mat-sort-header-content {
+    min-width: 100px;
+  }
+
+  td:nth-last-child(1) {
+    display: flex;
+    padding: 10px;
+  }
+
+  ::ng-deep .mat-drawer-transition .mat-drawer-content {
+    margin-left: 0 !important;
+  }
+}
+
+@media only screen and (min-width: 992px) {
+  .student-list-table {
+    overflow-x: auto;
+  }
+
+  /* .student-list-table table {
+    min-width: 800px;
+  } */
 }

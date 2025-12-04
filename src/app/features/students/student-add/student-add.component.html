@@ -1,5 +1,5 @@
 <div class="student-add-container">
-  <h2>{{studentID? 'Update' : 'Add'}}</h2>
+  <h2>{{studentID? 'Update Student Form' : 'Student Form'}}</h2>
   <form [formGroup]="formStudent" (ngSubmit)="onSubmit()">
     <div class="student-infor">
       <div class="image-preview">
@@ -71,6 +71,7 @@
           Add student contact
         </button>
       </div>
+
       <div class="student-contact-form" *ngFor="let group of contact.controls; let i = index" [formGroupName]="i">
         <mat-form-field>
           <mat-label>Username</mat-label>
@@ -93,6 +94,7 @@
           <mat-error>Address is required.</mat-error>
         </mat-form-field>
       </div>
+
     </div>
 
     <div class="student-add-action" style="margin-top: 20px">
@@ -102,8 +104,7 @@
       <button *ngIf="!edit" mat-raised-button color="primary" type="submit">Save</button>
       <button *ngIf="edit" (click)="editStudent(studentID)" mat-raised-button color="primary"
         type="button">Update</button>
-      <p><strong>Current Gender:</strong> {{ formStudent.value.gender | gender }}</p>
-      <p><strong>Current DOB:</strong> {{ formStudent.value.dob | date: 'mediumDate' }}</p>
+
     </div>
   </form>
 </div>
