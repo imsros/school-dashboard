@@ -33,6 +33,9 @@ export class LecturerAddComponent implements OnInit {
   ngOnInit(): void {
     this.formValidate();
     console.log(this.data);
+    if (this.data) {
+      this.loadLecturerForEdit(this.data);
+    }
   }
 
 
@@ -116,6 +119,12 @@ export class LecturerAddComponent implements OnInit {
     reader.readAsDataURL(file);
   }
 
+  updateLecturer() {
+    this.lecturerService.updateLecturer(this.data, this.formLecturer.value)
+      .subscribe(() => {
+        this.dialogRef.close(true);
+      });
+  }
 
   //create a lecturer
   createLecturer() {
@@ -123,18 +132,49 @@ export class LecturerAddComponent implements OnInit {
       console.log(value, 'data');
     })
   }
+  loadLecturerForEdit(id: string) {
+    this.lecturerService.getLecturerById(id).subscribe((lecturer) => {
+      this.formLecturer.patchValue({
+        id: lecturer.id,
+        username: lecturer.username,
+        email: lecturer.email,
+        phone: lecturer.phone,
+        image: lecturer.image
+      });
 
-  onSubmit() {
-    if (this.formLecturer.invalid) return alert('form validation failed');
-    else {
-      this.createLecturer();
-      // alert('Lecturer created successfully');
-    }
+      // Profession (string[])
+      this.professionArray.clear();
+      lecturer.profession.forEach((p: string) => {
+        this.professionArray.push(this.fb.control(p));
+      });
+
+      // Available hours
+      this.availableArray.clear();
+      lecturer.available_hour.forEach(dayGroup => {
+        const dayFG = this.createAvailableHourGroup();
+        dayFG.patchValue({ day: dayGroup.day });
+
+        const hourArray = dayFG.get('hours') as FormArray;
+        dayGroup.hours.forEach((h: string) => {
+          hourArray.push(this.fb.control(h));
+        });
+
+        this.availableArray.push(dayFG);
+      });
+
+      // Preview image
+      this.preview = lecturer.image;
+    });
   }
 
-  /* done testing form input */
 
+  onSubmit() {
+    if (this.formLecturer.invalid) return alert('Form validation failed');
 
-
-  /*start input to backend by using service */
+    if (this.data) {
+      this.updateLecturer();   // edit mode
+    } else {
+      this.createLecturer();   // create mode
+    }
+  }
 }

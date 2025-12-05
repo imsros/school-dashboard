@@ -14,7 +14,7 @@ import { LecturerService } from 'src/app/core/services/lecturer.service';
   styleUrls: ['./lecturer-list.component.css']
 })
 export class LecturerListComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'username', 'email', 'phone', 'profession', 'available_hour', 'image', 'actions'];
+  displayedColumns: string[] = ['position', 'id', 'username', 'email', 'phone', 'profession', 'image', 'actions'];
   ELEMENT_DATA: Lecturer[] = [];
   dataSource = this.ELEMENT_DATA;
   clickedRows = new Set<Lecturer>();
@@ -42,14 +42,6 @@ export class LecturerListComponent implements OnInit {
     });
   }
 
-  formatHour(available_hour: any[]): string {
-    if (!available_hour) return '';
-
-    return available_hour
-      .map(a => a.hours)   // extract hours arrays
-      .flat()              // flatten
-      .join(', ');
-  }
 
 
   deleteLecturerById(id: string) {

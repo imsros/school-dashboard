@@ -1,23 +1,3 @@
-.demo-table {
-    width: 100%;
-}
-
-.mat-mdc-row .mat-mdc-cell {
-    border-bottom: 1px solid transparent;
-    border-top: 1px solid transparent;
-    cursor: pointer;
-}
-
-.mat-mdc-row:hover .mat-mdc-cell {
-    border-color: currentColor;
-}
-
-.demo-row-is-clicked {
-    font-weight: bold;
-}
-
-
-
 /* From Uiverse.io by alexruix */
 .group {
     display: flex;
@@ -88,7 +68,7 @@ input:hover {
     height: 4px;
     width: 10px;
     top: calc(50% - 2px);
-    background: seagreen;
+    background: #3f51b5;
 }
 
 .add-btn::after {
@@ -131,7 +111,7 @@ input:hover {
     height: 20px;
     width: 2px;
     top: calc(50% - 10px);
-    background: seagreen;
+    background: #3f51b5;
     overflow: hidden;
 }
 
@@ -159,22 +139,167 @@ input:hover {
     top: calc(50% - 2px);
 }
 
+
+/* lecturer page */
 .lecturer-container {
-    width: 95%;
+    width: 90%;
     margin: auto;
     margin-top: 50px;
 }
 
-.lecturer-container h2 {
+table {
+    width: 90%;
     font-family: 'Poppins', sans-serif;
-    font-size: 20px;
-    font-weight: 800;
-    text-align: center;
-    color: #831717;
+}
+
+.mat-mdc-header-cell {
+    font-weight: bold;
+    font-family: 'Poppins', sans-serif;
+}
+
+.mat-mdc-row .mat-mdc-cell {
+    border-bottom: 1px solid transparent;
+    border-top: 1px solid transparent;
+    cursor: pointer;
+}
+
+.mat-mdc-row:hover .mat-mdc-cell {
+    border-color: currentColor;
+}
+
+.demo-row-is-clicked {
+    font-weight: bold;
 }
 
 .lecturer-container-header {
+    width: 100%;
     display: flex;
-    justify-content: space-between;
+    align-items: center;
     margin-bottom: 20px;
+}
+
+.lecturer-list-title {
+    font-family: 'Poppins', sans-serif;
+    color: #3f51b5;
+    font-weight: bold;
+    display: flex;
+    flex: 1;
+}
+
+.header-actions {
+    display: flex;
+    gap: 30px;
+    justify-content: flex-end;
+}
+
+:host ::ng-deep .mat-mdc-row .mat-mdc-cell {
+    font-family: 'Poppins', sans-serif;
+}
+
+
+@media (max-width: 600px) {
+    .lecturer-container {
+        width: 100%;
+        position: sticky;
+        left: 0;
+
+    }
+
+    .icon-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 20px;
+    }
+
+    .add-btn:hover {
+        width: 90px;
+    }
+
+    .add-btn::before,
+    .add-btn::after {
+        height: 3px;
+        width: 8px;
+    }
+
+    .add-btn::after {
+        right: 10px;
+    }
+
+    .add-btn::before {
+        left: 10px;
+    }
+
+    .btn-txt {
+        font-size: 12px;
+    }
+
+    .add-icon::after,
+    .add-icon::before {
+        height: 14px;
+        width: 2px;
+        top: calc(50% - 7px);
+    }
+
+    .add-icon::before {
+        left: 18px;
+    }
+
+    .add-icon::after {
+        right: 18px;
+    }
+
+    .add-btn:hover .add-icon::before {
+        left: 12px;
+        height: 3px;
+        top: calc(50% - 1.5px);
+    }
+
+    .add-btn:hover .add-icon::after {
+        right: 12px;
+        height: 3px;
+        top: calc(50% - 1.5px);
+    }
+
+    .lecturer-list-title {
+        align-items: center;
+        font-size: medium;
+    }
+
+    .group {
+        width: 50%;
+    }
+
+    :host ::ng-deep .mat-mdc-row .mat-mdc-cell {
+        min-width: 150px;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    ::ng-deep .mat-drawer-transition .mat-drawer-content {
+        margin-left: 0 !important;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .lecturer-container {
+        width: 100%;
+        position: sticky;
+        left: 0;
+    }
+
+    :host ::ng-deep .mat-mdc-row .mat-mdc-cell {
+        min-width: 150px;
+        font-family: 'Poppins', sans-serif;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199) {
+    :host ::ng-deep .mat-mdc-row .mat-mdc-cell {
+        min-width: 150px;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    td:nth-last-child(1) {
+        display: flex;
+        padding: 10px;
+    }
 }

@@ -21,6 +21,8 @@ import { SettingComponent } from './features/setting/setting.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ShareModule } from './shared/share.module';
 import { StudentsModule } from './features/students/students.module';
+import { FooterComponent } from './layout/footer/footer.component';
+
 
 
 @NgModule({
@@ -34,6 +36,7 @@ import { StudentsModule } from './features/students/students.module';
     NotFoundComponent,
     MyAccountComponent,
     SettingComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,

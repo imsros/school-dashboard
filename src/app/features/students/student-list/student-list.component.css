@@ -9,20 +9,23 @@ table {
 
 }
 
-/* td {
+td {
   min-width: 10%;
   font-family: 'Poppins', sans-serif;
+  white-space: nowrap;
 }
 
 th {
   min-width: 10%;
   font-family: 'Poppins', sans-serif;
   font-weight: 800;
-} */
-td,
-th {
   white-space: nowrap;
 }
+
+/* td,
+th {
+  white-space: nowrap;
+} */
 
 .student-list-container {
   width: 95%;
@@ -61,7 +64,7 @@ h1 {
   height: 70px;
 }
 
-@media only screen and (max-width: 600px) {
+@media (max-width: 600px) and (max-width: 767px) {
   .header {
     width: 100%;
   }
@@ -79,7 +82,9 @@ h1 {
   } */
 
   .student-list-table mat-paginator {
-    position: fixed;
+    position: sticky;
+    left: 0;
+    right: 0;
   }
 
   /* :host ::ng-deep .mat-sort-header-content {
@@ -99,7 +104,7 @@ h1 {
   }
 }
 
-@media only screen and (min-width: 768px) {
+@media (min-width: 768px) and (max-width: 991px) {
 
   .student-list-table {
     overflow-x: auto;
@@ -110,12 +115,13 @@ h1 {
   } */
 
   .student-list-table mat-paginator {
-    width: 100%;
-    position: fixed;
+    position: sticky;
+    left: 0;
+    right: 0
   }
 
   :host ::ng-deep .mat-sort-header-content {
-    min-width: 100px;
+    min-width: auto !important;
   }
 
   td:nth-last-child(1) {
@@ -123,17 +129,28 @@ h1 {
     padding: 10px;
   }
 
-  ::ng-deep .mat-drawer-transition .mat-drawer-content {
+
+  /* ::ng-deep .mat-drawer-transition .mat-drawer-content {
     margin-left: 0 !important;
-  }
+  } */
 }
 
-@media only screen and (min-width: 992px) {
+/* 992 - 1199 */
+@media (min-width: 992px) and (max-width: 1199) {
+
+
+  :host ::ng-deep .mat-sort-header-content {
+    min-width: auto !important;
+  }
+
   .student-list-table {
     overflow-x: auto;
   }
 
   /* .student-list-table table {
     min-width: 800px;
+  } */
+  /* ::ng-deep .mat-drawer-transition .mat-drawer-content {
+    margin-left: 230px !important;
   } */
 }

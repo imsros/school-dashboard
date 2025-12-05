@@ -1,5 +1,6 @@
 export interface Lecturer {
     id: string;
+    position: number;
     username: string;
     email: string;
     phone: number;

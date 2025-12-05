@@ -33,7 +33,8 @@
       <ng-container matColumnDef="image" class="student-image">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Image</th>
         <td mat-cell *matCellDef="let row">
-          <img [src]="row.image" alt="student-image" style="width: 60px; height: 60px; border-radius: 50%;" />
+          <img [src]="row.image ? row.image : 'https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png'"
+            alt="student-image" style="width: 60px; height: 60px; border-radius: 50%;" />
         </td>
       </ng-container>
 
