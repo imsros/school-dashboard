@@ -18,7 +18,7 @@ export class DashboardComponent {
     {
       title: 'Lecturer Management',
       image:
-        'https://cdni.iconscout.com/illustration/premium/thumb/online-lecturer-illustration-svg-download-png-7606655.png',
+        'https://i.pinimg.com/736x/ce/6c/31/ce6c31db6fb0b58e58a9ac9dcbf4fcc3.jpg',
       description:
         'A lecturer in management is an academic professional responsible for teaching, research, and administration within a university',
       route: '/lecturer',

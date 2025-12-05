@@ -17,7 +17,7 @@ export class StudentHomeComponent {
     {
       title: 'Information',
       image:
-        'https://i.pinimg.com/736x/4c/ab/5a/4cab5a9e6991444475bd867828556178.jpg',
+        'https://diplomasafe.com/wp-content/uploads/2025/03/sis-2-edited.png',
       description: 'View student information.',
       route: '/student/studentInformation',
     },

@@ -144,7 +144,7 @@ h1 {
   }
 
   .student-list-table {
-    overflow-x: auto;
+    overflow-x: scroll;
   }
 
   /* .student-list-table table {
