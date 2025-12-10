@@ -1,0 +1,101 @@
+<div class="staff-add-container">
+    <h2>Staff Form Add</h2>
+    <div class="form-add">
+        <form [formGroup]="formStaff" (ngSubmit)="submitStaff()" class="staff-add-form">
+            <mat-form-field class="example-full-width">
+                <mat-label>Staff ID</mat-label>
+                <input matInput formControlName="staff_code">
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+                <mat-label>Staff Fullname</mat-label>
+                <input matInput formControlName="fullname">
+            </mat-form-field>
+
+            <!-- <label id="example-radio-group-label">Choose Gender</label> -->
+            <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
+                [(ngModel)]="chooseGender" formControlName="gender">
+                <mat-radio-button class="example-radio-button" *ngFor="let gender of genders" [value]="gender">
+                    {{gender}}
+                </mat-radio-button>
+            </mat-radio-group>
+
+            <mat-form-field>
+                <mat-label>Staff DOB</mat-label>
+                <input matInput [matDatepicker]="DOBpicker" formControlName="dob">
+                <mat-datepicker-toggle matIconSuffix [for]="DOBpicker"></mat-datepicker-toggle>
+                <mat-datepicker #DOBpicker></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+                <mat-label>Staff National ID</mat-label>
+                <input matInput formControlName="national_id">
+            </mat-form-field>
+
+
+
+            <mat-form-field class="example-full-width">
+                <mat-label>Staff Telephone</mat-label>
+                <span matPrefix>+855 &nbsp;</span>
+                <input type="tel" matInput placeholder="069-66-56-57" formControlName="phone">
+                <mat-icon matSuffix>mode_edit</mat-icon>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Staff Email</mat-label>
+                <input matInput placeholder="abc@example.com" formControlName="email">
+                <!-- <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error> -->
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+                <mat-label>Position</mat-label>
+                <input matInput formControlName="position">
+            </mat-form-field>
+
+            <mat-form-field class="example-chip-list">
+                <mat-label>Department</mat-label>
+                <mat-chip-grid #chipGrid aria-label="Department selection">
+                    <mat-chip-row *ngFor="let department of departments" (removed)="remove(department)">
+                        {{department}}
+                        <button matChipRemove [attr.aria-label]="'remove ' + department">
+                            <mat-icon>cancel</mat-icon>
+                        </button>
+                    </mat-chip-row>
+                </mat-chip-grid>
+                <input placeholder="New Department..." #depInput [formControl]="depCtrl" [matChipInputFor]="chipGrid"
+                    [matAutocomplete]="auto" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                    (matChipInputTokenEnd)="add($event)" />
+                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                    <mat-option *ngFor="let dep of filteredDep | async" [value]="dep">
+                        {{dep}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Choose Hired Date</mat-label>
+                <input matInput [matDatepicker]="Hiredpicker" formControlName="date_hired">
+                <mat-datepicker-toggle matIconSuffix [for]="Hiredpicker"></mat-datepicker-toggle>
+                <mat-datepicker #Hiredpicker></mat-datepicker>
+            </mat-form-field>
+
+
+            <div class="image-preview">
+                <img [src]="preview" alt="staff-image-preview">
+                <div class="overlay" (click)="triggleUpload()">
+                    <mat-icon>cloud_upload</mat-icon>
+                    <span>Upload</span>
+                </div>
+                <input id="fileInput" type="file" hidden accept="image/*" (change)="onImageChange($event)" />
+            </div>
+
+            <div class="staff-add-action" style="margin-top: 20px">
+                <button mat-raised-button color="warn" routerLink="/staff/allStaff">
+                    Cancel
+                </button>
+                <button mat-raised-button color="primary" type="submit">Save</button>
+            </div>
+        </form>
+    </div>
+
+</div>
+<pre>{{formStaff.value | json}}</pre>

@@ -5,9 +5,11 @@ import { StaffListComponent } from './staff-list/staff-list.component';
 import { StaffAttendanceComponent } from './staff-attendance/staff-attendance.component';
 import { StaffPayrollComponent } from './staff-payroll/staff-payroll.component';
 import { NotFoundComponent } from '../not-found/not-found.component';
+import { StaffAddComponent } from './staff-add/staff-add.component';
 
 const routes: Routes = [
   { path: '', component: StaffHomeComponent },
+  { path: 'staff-add', component: StaffAddComponent },
   { path: 'allStaff', component: StaffListComponent },
   { path: 'staffAttendance', component: StaffAttendanceComponent },
   { path: 'staffPayroll', component: StaffPayrollComponent },
@@ -18,4 +20,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class StaffRoutingModule {}
+export class StaffRoutingModule { }

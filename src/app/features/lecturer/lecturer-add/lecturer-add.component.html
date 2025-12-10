@@ -77,9 +77,6 @@
                     </mat-form-field>
 
                     <div formArrayName="hours" class="hours-list">
-
-
-
                         <div *ngFor="let h of getHourArray(i).controls; let j = index" class="add-hour">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Hour {{ j + 1 }}</mat-label>
@@ -96,8 +93,6 @@
 
 
                     </div>
-
-                    <!-- Remove Day -->
                     <button mat-stroked-button color="warn" type="button" (click)="removeAvailableHour(i)">
                         Remove Day
                     </button>

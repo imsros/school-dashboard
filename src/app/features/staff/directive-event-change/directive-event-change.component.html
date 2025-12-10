@@ -1,0 +1,17 @@
+<div appHightlight class="box">
+    <h3>type a b c key to change my background</h3>
+</div>
+<br>
+<div appHoverChange class="box">
+    <h2>hover me to change my background</h2>
+</div>
+<br>
+<h1>My First Attribute Directive</h1>
+
+<h2>Pick a highlight color</h2>
+<div>
+    <input type="radio" name="colors" (click)="color='lightgreen'">Green
+    <input type="radio" name="colors" (click)="color='yellow'">Yellow
+    <input type="radio" name="colors" (click)="color='blue'">Cyan
+</div>
+<p [appAttribute]="color">Highlight me!</p>
