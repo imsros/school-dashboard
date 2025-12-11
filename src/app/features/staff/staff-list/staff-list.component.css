@@ -1,54 +1,6 @@
-table {
-    width: 100%;
-}
-
-tr.example-detail-row {
-    height: 0;
-}
-
-tr.example-element-row:not(.example-expanded-row):hover {
-    background: whitesmoke;
-}
-
-tr.example-element-row:not(.example-expanded-row):active {
-    background: #efefef;
-}
-
-.example-element-row td {
-    border-bottom-width: 0;
-}
-
-.example-element-detail {
-    overflow: hidden;
-    display: flex;
-}
-
-.example-element-diagram {
-    min-width: 80px;
-    border: 2px solid black;
-    height: 104px;
-}
-
-.example-element-diagram img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.example-element-symbol {
-    font-weight: bold;
-    font-size: 40px;
-    line-height: normal;
-}
-
-.example-element-description {
-    padding: 16px;
-}
-
-.example-element-description-attribution {
-    opacity: 0.5;
-}
-
+/* * {
+    font-family: 'Poppins', sans-serif;
+} */
 /* From Uiverse.io by LightAndy1 */
 .group {
     display: flex;
@@ -166,6 +118,59 @@ tr.example-element-row:not(.example-expanded-row):active {
     box-shadow: 0px 0px var(--main-color);
 }
 
+table {
+    width: 100%;
+}
+
+tr.example-detail-row {
+    height: 0;
+}
+
+tr.example-element-row:not(.example-expanded-row):hover {
+    background: whitesmoke;
+}
+
+tr.example-element-row:not(.example-expanded-row):active {
+    background: #efefef;
+}
+
+.example-element-row td {
+    border-bottom-width: 0;
+}
+
+.example-element-detail {
+    overflow: hidden;
+    display: flex;
+}
+
+.example-element-diagram {
+    min-width: 80px;
+    border: 2px solid black;
+    height: 104px;
+}
+
+.example-element-diagram img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.example-element-symbol {
+    font-weight: bold;
+    font-size: 40px;
+    line-height: normal;
+}
+
+.example-element-description {
+    padding: 16px;
+}
+
+.example-element-description-attribution {
+    opacity: 0.5;
+}
+
+
+
 .staff-container {
     width: 90%;
     margin: auto;
@@ -190,4 +195,98 @@ tr.example-element-row:not(.example-expanded-row):active {
 
 .hidden {
     display: none;
+}
+
+.table-row {
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    min-width: auto;
+}
+
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 10px;
+    background: white;
+}
+
+.table-wrapper table {
+    min-width: 700px;
+}
+
+@media (max-width: 600px) and (max-width: 767px) {
+
+    .staff-list-header {
+        width: 100%;
+        position: sticky;
+        top: 0;
+        padding: 10px 0;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .left-header-side {
+        font-size: 18px;
+        font-weight: 600;
+        flex: 1;
+    }
+
+    .right-header-side {
+        display: flex;
+        justify-content: flex-end;
+        gap: 0;
+
+    }
+
+    .group {
+        width: 70%;
+        transform: translateX(40px);
+    }
+
+    ::ng-deep .mat-mdc-header-cell {
+        background-color: #f4f4f4 !important;
+        font-weight: 600;
+        font-size: 14px;
+        color: #333;
+        position: sticky;
+        top: 0;
+        z-index: 5;
+    }
+
+    .table-row {
+        min-width: 200px;
+    }
+
+    ::ng-deep .mat-drawer-transition .mat-drawer-content {
+        margin-left: 0 !important;
+    }
+
+
+
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .table-row {
+        min-width: 200px;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199) {
+    .table-row {
+        min-width: 200px;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    .table-row {
+        min-width: 200px;
+    }
+
+    ::ng-deep .mat-drawer-transition .mat-drawer-content {
+        scrollbar-width: thin;
+    }
+
 }

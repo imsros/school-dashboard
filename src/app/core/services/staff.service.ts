@@ -17,4 +17,14 @@ export class StaffService {
   getAllStaff(): Observable<Staff[]> {
     return this.http.get<Staff[]>(this.apiStaff);
   }
+  deleteStaff(id: string): Observable<Staff> {
+    return this.http.delete<Staff>(`${this.apiStaff}/${id}`);
+  }
+
+  getStaffById(id: string): Observable<Staff> {
+    return this.http.get<Staff>(`${this.apiStaff}/${id}`);
+  }
+  updateStaff(id: string, partial: Partial<Staff>): Observable<Staff> {
+    return this.http.patch<Staff>(`${this.apiStaff}/${id}`, partial);
+  }
 }

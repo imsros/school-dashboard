@@ -19,9 +19,10 @@ import { MatTableDataSource } from '@angular/material/table';
 export class StaffListComponent implements OnInit {
   // isLoggedIn = false;
 
-  // staffs: Staff[] = [];
+  public staffs: Staff[] = [];
+  public search: string = '';
   dataSource = new MatTableDataSource<Staff>();
-  columnsToDisplay = ['staff_code', 'fullname', 'gender', 'dob', 'national_id', 'phone', 'email', 'position', 'department', 'date_hired'];
+  columnsToDisplay = ['staff_code', 'fullname', 'gender', 'dob', 'national_id', 'phone', 'email', 'position', 'date_hired'];
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
   expandedElement!: Staff | null;
 
@@ -32,10 +33,41 @@ export class StaffListComponent implements OnInit {
 
   fetchStaff() {
     this.staffService.getAllStaff().subscribe((response) => {
-      // this.staffs = response;
       console.log(response);
+      // const staffWithId = response.map(s => ({
+      //   ...s,
+      //   id: s.id
+      // }));
+      // this.dataSource.data = staffWithId;
       this.dataSource.data = response;
-    })
+    });
+  }
+
+  destroyStaff(id: string) {
+    this.staffService.deleteStaff(id).subscribe(
+      {
+        next: () => {
+          const deleteStaff = this.dataSource.data.filter(del => del.id !== id);
+          this.dataSource.data = deleteStaff;
+        },
+        error: () => {
+          console.log('Staff code could not found.')
+        }
+      }
+    )
+  }
+
+  searchStaff() {
+    const value = this.search.toLowerCase().trim();
+    this.dataSource = new MatTableDataSource(
+      this.staffs.filter((staff) => {
+        staff.staff_code.toLowerCase().includes(value),
+          staff.fullname.toLowerCase().includes(value),
+          staff.national_id.toLowerCase().includes(value),
+          staff.phone.toString().toLowerCase().includes(value),
+          staff.email.toLowerCase().includes(value)
+      })
+    )
   }
 
 }

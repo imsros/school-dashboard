@@ -9,12 +9,12 @@ import { StudentScheduleComponent } from './student-schedule/student-schedule.co
 import { ShareModule } from 'src/app/shared/share.module';
 import { MaterialModule } from 'src/app/environment/MaterialModule';
 import { StudentAddComponent } from './student-add/student-add.component';
-import { StudentContactComponent } from './student-contact/student-contact.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { GenderPipe } from 'src/app/core/pipe/gender.pipe';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { DeleteDialogComponent } from './student-list/delete-dialog/delete-dialog.component';
+import { StudentServeyComponent } from './student-servey/student-servey.component';
 
 @NgModule({
   declarations: [
@@ -23,9 +23,9 @@ import { DeleteDialogComponent } from './student-list/delete-dialog/delete-dialo
     StudentInformationComponent,
     StudentScheduleComponent,
     StudentAddComponent,
-    StudentContactComponent,
     GenderPipe,
-    DeleteDialogComponent
+    DeleteDialogComponent,
+    StudentServeyComponent
   ],
   imports: [
     CommonModule,

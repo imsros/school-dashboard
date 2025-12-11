@@ -10,6 +10,7 @@ import { ElementRef, ViewChild, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { StaffService } from 'src/app/core/services/staff.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Staff } from 'src/app/core/model/staff.interface';
 
 @Component({
   selector: 'app-staff-add',
@@ -19,11 +20,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class StaffAddComponent implements OnInit {
   chooseGender!: string;
   genders: string[] = ['Male', 'Female', 'Prefer not to say'];
+  public staffID: string = '';
 
   formStaff !: FormGroup;
   //to avoid ts warning, we need the exclamation mark
   preview: string | ArrayBuffer | null =
-    'https://png.pngtree.com/png-clipart/20210709/ourmid/pngtree-cartoon-blue-purple-instagram-social-cute-female-student-avatar-png-image_3579094.jpg';
+    'https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png';
 
   //angular material chips
   separatorKeysCodes: number[] = [ENTER, COMMA];
@@ -44,6 +46,11 @@ export class StaffAddComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+
+
+
+
     this.formStaff = this.fb.group({
       image: [''],
       staff_code: [''],
@@ -57,6 +64,15 @@ export class StaffAddComponent implements OnInit {
       department: [''],
       date_hired: [''],
     })
+
+    const id = this.router.snapshot.paramMap.get('id');
+    if (id) {
+      this.staffService.getStaffById(id).subscribe((staff) => {
+        this.formStaff.patchValue(staff);
+        this.preview = staff.image;
+      })
+    }
+    this.staffID = id ? id.toString() : '';
   }
 
   triggleUpload() {
@@ -81,13 +97,44 @@ export class StaffAddComponent implements OnInit {
 
     })
   }
+  // getStaffById() {
+  //   this.staffService.getStaffById(this.staffID).subscribe((staff) => {
+  //     this.formStaff.patchValue({
+  //       image: staff.image,
+  //       staff_code: staff.staff_code,
+  //       fullname: staff.fullname,
+  //       gender: staff.gender,
+  //       dob: staff.dob,
+  //       natinal_id: staff.national_id,
+  //       phone: staff.phone,
+  //       email: staff.email,
+  //       position: staff.position,
+  //       department: staff.department,
+  //       date_hired: staff.date_hired
+  //     })
+  //     this.preview = staff.image
+  //     //set preview outside patchValue because patchValue updates the form controls, not the component UI variables.
+  //   })
+  // }
 
   submitStaff() {
-    if (this.formStaff.valid) {
-      this.createStaff();
-      this.route.navigate(['/staff/allStaff']);
+    // if (this.formStaff.valid) {
+    //   this.createStaff();
+    //   this.route.navigate(['/staff/allStaff']);
+    // }
+    if (!this.formStaff.valid) return;
+    const id = this.router.snapshot.paramMap.get('id');
+    if (id) {
+      this.staffService.updateStaff(id, this.formStaff.value).subscribe(() => {
+        this.route.navigate(['/staff/allStaff'])
+      })
+    } else {
+      this.staffService.createStaff(this.formStaff.value).subscribe(() => [
+        this.route.navigate(['/staff/allStaff'])
+      ])
     }
   }
+
 
   //from angular material chips
   add(event: MatChipInputEvent): void {

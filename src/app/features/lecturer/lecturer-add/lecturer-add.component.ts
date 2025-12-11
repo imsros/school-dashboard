@@ -12,12 +12,9 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./lecturer-add.component.css']
 })
 export class LecturerAddComponent implements OnInit {
-  public preview: string | ArrayBuffer | null = 'https://i.pinimg.com/1200x/84/21/3c/84213c274232612ea26c8809893b3c7f.jpg';
-
+  public preview: string | ArrayBuffer | null = 'https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png';
   formLecturer!: FormGroup;
-
-  lecturer: Lecturer[] = []; //array instance of interface
-
+  public lecturer: Lecturer[] = []; //array instance of interface
   constructor(public dialog: MatDialog, private fb: FormBuilder, private lecturerService: LecturerService, private router: Router, private route: ActivatedRoute, public dialogRef: MatDialogRef<LecturerAddComponent>,
     @Inject(MAT_DIALOG_DATA) public data: string,) { }
 
@@ -29,16 +26,12 @@ export class LecturerAddComponent implements OnInit {
     { day: 'Friday', value: 'friday' },
     { day: 'Saturday', value: 'saturday' }
   ];
-
   ngOnInit(): void {
     this.formValidate();
-    console.log(this.data);
     if (this.data) {
       this.loadLecturerForEdit(this.data);
     }
   }
-
-
   formValidate() {
     this.formLecturer = this.fb.group({
       id: [''],
@@ -50,56 +43,40 @@ export class LecturerAddComponent implements OnInit {
       image: ['']
     })
   }
-  //a getter to make it easiser to read and use everywhere without reapeating the same code 
-  get professionArray(): FormArray {
+  get professionArray(): FormArray {   //a getter to make it easiser to read and use everywhere without reapeating the same code 
     return this.formLecturer.get('profession') as FormArray;  //as FormArray tells TypeScript to treat it as FormArray
   }
-
-  //push a new empty profession field into the FormArray
-  addProfession() {
-    this.professionArray.push(this.fb.control(''));
-    //pushing form control because profession is just a simple string
+  addProfession() {   //push a new empty profession field into the FormArray
+    this.professionArray.push(this.fb.control('')); //pushing form control because profession is just a simple string
   }
-  //simple removing​ form array by index
-  removeProfession(index: number) {
+  removeProfession(index: number) {   //simple removing​ form array by index
     this.professionArray.removeAt(index);
   }
-
-  //get the form array of available_hour
-  get availableArray(): FormArray {
+  get availableArray(): FormArray {   //get the form array of available_hour
     return this.formLecturer.get('available_hour') as FormArray;
   }
-  //create the structure for one day inside the available_hour array
-  createAvailableHourGroup(): FormGroup {
+  createAvailableHourGroup(): FormGroup {   //create the structure for one day inside the available_hour array
     return this.fb.group({
       day: [''],
       hours: this.fb.array([])
     })
   }
-  //add a new day group (day + hours[]) into the FormArray.
-  addAvailableHour(): void {
+  addAvailableHour(): void {   //add a new day group (day + hours[]) into the FormArray.
     this.availableArray.push(this.createAvailableHourGroup());
   }
-  //remove a day group
-  removeAvailableHour(index: number) {
+  removeAvailableHour(index: number) {  //remove a day group
     this.availableArray.removeAt(index);
   }
-
-  //get the inner hours FormArray for a specific day
-  getHourArray(index: number): FormArray {
+  getHourArray(index: number): FormArray {    //get the inner hours FormArray for a specific day
     return this.availableArray.at(index).get('hours') as FormArray;
-    //availableArray.at(index) : the selected day group
-    //.get('hours') : access the hours FormArray inside the group
   }
 
   addHour(index: number): void {
     this.getHourArray(index).push(this.fb.control(''));
   }
-
   removeHour(parentIndex: number, hourIndex: number): void {
     this.getHourArray(parentIndex).removeAt(hourIndex);
   }
-
   triggleUpload() {
     document.getElementById('fileInput')?.click();
   }
@@ -109,12 +86,9 @@ export class LecturerAddComponent implements OnInit {
       return;   //if no file selected, function stop.
     }
     const reader = new FileReader();
-
     reader.onload = () => {
       this.preview = reader.result;  //for using in template by property binding.
-
       this.formLecturer.patchValue({ image: reader.result });
-
     };
     reader.readAsDataURL(file);
   }
@@ -125,8 +99,6 @@ export class LecturerAddComponent implements OnInit {
         this.dialogRef.close(true);
       });
   }
-
-  //create a lecturer
   createLecturer() {
     this.lecturerService.createLecturer(this.formLecturer.value).subscribe((value) => {
       console.log(value, 'data');
@@ -158,10 +130,8 @@ export class LecturerAddComponent implements OnInit {
         dayGroup.hours.forEach((h: string) => {
           hourArray.push(this.fb.control(h));
         });
-
         this.availableArray.push(dayFG);
       });
-
       // Preview image
       this.preview = lecturer.image;
     });

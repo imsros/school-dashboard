@@ -5,8 +5,6 @@ import { Lecturer } from 'src/app/core/model/lecturere.interface';
 import { Form, FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { LecturerService } from 'src/app/core/services/lecturer.service';
 
-
-
 // const ELEMENT_DATA: Lecturer[] = [];
 @Component({
   selector: 'app-lecturer-list',
@@ -41,9 +39,6 @@ export class LecturerListComponent implements OnInit {
       console.log(`Dialog result : ${result}`);
     });
   }
-
-
-
   deleteLecturerById(id: string) {
     this.lecturerService.deleteLecturer(id).subscribe({
       next: () => {
@@ -53,7 +48,6 @@ export class LecturerListComponent implements OnInit {
       error: () => { alert('Failed to delete lecturer.') }
     })
   }
-
   edit(id: string) {
     this.openDialog(id);
   }

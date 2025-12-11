@@ -1,5 +1,5 @@
 <div class="staff-add-container">
-    <h2>Staff Form Add</h2>
+    <h2>{{ staffID ? 'Form Edit Staff' : 'Form Add Staff'}}</h2>
     <div class="form-add">
         <form [formGroup]="formStaff" (ngSubmit)="submitStaff()" class="staff-add-form">
             <mat-form-field class="example-full-width">
@@ -30,8 +30,6 @@
                 <mat-label>Staff National ID</mat-label>
                 <input matInput formControlName="national_id">
             </mat-form-field>
-
-
 
             <mat-form-field class="example-full-width">
                 <mat-label>Staff Telephone</mat-label>

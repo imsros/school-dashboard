@@ -66,7 +66,6 @@ export class StudentListComponent implements AfterViewInit, OnInit {
       }
     });
   }
-
   //table angular material with default search feature
   // applyFilter(event: Event) {
   //   const filterValue = (event.target as HTMLInputElement).value;
@@ -75,7 +74,6 @@ export class StudentListComponent implements AfterViewInit, OnInit {
   //     this.dataSource.paginator.firstPage();
   //   }
   // }
-
   searchStudent() {
     const value = this.search.toLowerCase().trim();
     this.dataSource = new MatTableDataSource(
@@ -99,8 +97,7 @@ export class StudentListComponent implements AfterViewInit, OnInit {
         error: () => alert('Failed to delete student.')
       })
   }
-
-  openDialog(row: any): void {
+  openDialog(row: any): void {   //confirm delete by using dialog
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
       width: '250px',
       data: { id: row.id }
@@ -110,7 +107,6 @@ export class StudentListComponent implements AfterViewInit, OnInit {
         this.deleteStudent(row.id);
       }
     })
-
   }
 
 } 

@@ -1,5 +1,6 @@
 export interface Staff {
     image: string;
+    id: string;
     staff_code: string;
     fullname: string;
     gender: string;

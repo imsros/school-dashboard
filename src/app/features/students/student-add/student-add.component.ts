@@ -29,7 +29,7 @@ export class StudentAddComponent implements OnInit {
   ]
   // public showFormArray = false;
   preview: string | ArrayBuffer | null =
-    'https://png.pngtree.com/png-clipart/20210709/ourmid/pngtree-cartoon-blue-purple-instagram-social-cute-female-student-avatar-png-image_3579094.jpg';
+    'https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png';
   constructor(
     private fb: FormBuilder,
     private studentService: StudentsService,
@@ -38,14 +38,10 @@ export class StudentAddComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-
-    const id = this.route.snapshot.paramMap.get('id');
-    //get the id that exit into the URL
+    this.formValidate();
+    const id = this.route.snapshot.paramMap.get('id'); //get the id that exit into the URL
     this.studentID = id ? id.toString() : '';   //if the id exist, convert to string, otherwise set to empty string
     this.edit = id !== null;
-
-    this.formValidate();
-
     if (this.edit) {
       this.getStudentById();
       this.getStudentContact();
@@ -64,6 +60,15 @@ export class StudentAddComponent implements OnInit {
       contact: this.fb.array([]),
     });
   }
+
+  createStudent() {
+    this.studentService
+      .addStudent(this.formStudent.value)
+      .subscribe((value) => {
+        console.log(value, 'data');
+        this.router.navigate(['/student/allStudent']);
+      });
+  }
   getStudentById() {
     this.studentService.getStudentById(this.studentID).subscribe((student) => {
       this.formStudent.patchValue({
@@ -75,11 +80,17 @@ export class StudentAddComponent implements OnInit {
         dob: student.dob,
         department: student.department
       });
-      console.log(this.formStudent.value, 'form')
+      // console.log(this.formStudent.value, 'form')
       this.preview = student.image;
     })
   }
-  //get the data in form array
+  editStudent(id: string) {
+    this.studentService.updateStudent(id, this.formStudent.value).subscribe((response) => {
+      if (!response) return;
+      this.router.navigate(['/student/allStudent']);
+    })
+  }
+  //get data in form array
   //fetch and update
   getStudentContact() {
     this.studentService.getStudentById(this.studentID).subscribe((student) => {
@@ -103,7 +114,6 @@ export class StudentAddComponent implements OnInit {
   get contact() {
     return this.formStudent.get('contact') as FormArray;
   }
-
   //add
   //the newContact method creates a new contact FormGroup and returns it. It has 4 properties.
   newContact(): FormGroup {
@@ -114,52 +124,30 @@ export class StudentAddComponent implements OnInit {
       address: ['',],
     });
   }
-
   //next, the method to add an contact. It uses the newContact method which returns the Contact FormGroup and add contact array.
   addNewContact() {
     this.contact.push(this.newContact());
   }
-  //when click on image, we can browse to our local image that exist
-  triggleUpload() {
+
+  triggleUpload() {      //when click on image, we can browse to our local image that exist
     document.getElementById('fileInput')?.click();
   }
-
-  //tracking on image change, due to we also have default image setter
-  onImageChange(event: any) {
+  onImageChange(event: any) {     //tracking on image change, due to we also have default image setter
     const file = event.target.files && event.target.files[0];
     if (!file) {
       return;   //if no file selected, function stop.
     }
-    // console.log('selected file:', {
-    //   name: file.name,
-    //   type: file.type,
-    //   size: file.size,
-    // });
-
-    //FileReader is a js object that can read file (image,pdf, text) from the user's compoter.
-    const reader = new FileReader();
-    // When read completes, set preview and patch the form with the data URL string
-    reader.onload = () => {
+    const reader = new FileReader();      //FileReader is a js object that can read file (image,pdf, text) from the user's compoter.
+    reader.onload = () => {    // When read completes, set preview and patch the form with the data URL string
       this.preview = reader.result;  //for using in template by property binding.
-      // store the base64/data URL string in the form so JSON backends (like json-server) can store it
-      this.formStudent.patchValue({ image: reader.result });
-      // console.log(
-      //   'image as dataURL set on form:',
-      //   this.formStudent.get('image')?.value
-      // );
+      this.formStudent.patchValue({ image: reader.result });   // store the base64/data URL string in the form so JSON backends (like json-server) can store it
     };
-    reader.readAsDataURL(file);
-    //this tells FileReader to read the image and convert it to Base64 Data URL
+    reader.readAsDataURL(file);   //this tells FileReader to read the image and convert it to Base64 Data URL
   }
   onSubmit() {
     if (this.formStudent.invalid) {
       return alert('Data validation is invalid...');
-      // this.formStudent.markAllAsTouched();
     } else {
-      // console.log(this.createStudent());
-      // // console.log('data', this.formStudent.value);
-      // return alert('Data validated successfully.');
-
       if (this.edit && this.studentID) {
         alert('edit');
         this.editStudent(this.studentID);
@@ -168,20 +156,5 @@ export class StudentAddComponent implements OnInit {
         this.createStudent();
       }
     }
-  }
-  editStudent(id: string) {
-    this.studentService.updateStudent(id, this.formStudent.value).subscribe((response) => {
-      if (!response) return;
-      this.router.navigate(['/student/allStudent']);
-    })
-  }
-
-  createStudent() {
-    this.studentService
-      .addStudent(this.formStudent.value)
-      .subscribe((value) => {
-        console.log(value, 'data');
-        this.router.navigate(['/student/allStudent']);
-      });
   }
 }

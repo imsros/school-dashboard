@@ -64,7 +64,6 @@
         </mat-form-field>
       </div>
     </div>
-
     <div class="student-contact" formArrayName="contact">
       <div class="add-form-array">
         <button mat-raised-button color="primary" type="button" (click)="addNewContact()">
@@ -72,6 +71,7 @@
         </button>
       </div>
 
+      <!-- form array -->
       <div class="student-contact-form" *ngFor="let group of contact.controls; let i = index" [formGroupName]="i">
         <mat-form-field>
           <mat-label>Username</mat-label>
@@ -94,9 +94,7 @@
           <mat-error>Address is required.</mat-error>
         </mat-form-field>
       </div>
-
     </div>
-
     <div class="student-add-action" style="margin-top: 20px">
       <button mat-raised-button color="warn" routerLink="/student/allStudent">
         Cancel
@@ -104,9 +102,7 @@
       <button *ngIf="!edit" mat-raised-button color="primary" type="submit">Save</button>
       <button *ngIf="edit" (click)="editStudent(studentID)" mat-raised-button color="primary"
         type="button">Update</button>
-
     </div>
   </form>
 </div>
-
 <pre>{{formStudent.value| json}}</pre>

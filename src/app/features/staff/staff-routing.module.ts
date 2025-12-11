@@ -10,6 +10,7 @@ import { StaffAddComponent } from './staff-add/staff-add.component';
 const routes: Routes = [
   { path: '', component: StaffHomeComponent },
   { path: 'staff-add', component: StaffAddComponent },
+  { path: 'staff-edit/:id', component: StaffAddComponent },
   { path: 'allStaff', component: StaffListComponent },
   { path: 'staffAttendance', component: StaffAttendanceComponent },
   { path: 'staffPayroll', component: StaffPayrollComponent },
