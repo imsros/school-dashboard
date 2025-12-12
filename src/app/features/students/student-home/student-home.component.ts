@@ -28,5 +28,11 @@ export class StudentHomeComponent {
       description: 'View Schedule',
       route: '/student/studentSchedule',
     },
+    {
+      title: 'Survey',
+      image: 'https://3.files.edl.io/c7b5/23/12/12/193240-7fc58398-0b62-4b15-996b-9f27570be47c.png',
+      description: 'View Student Survey',
+      route: '/student/studentSurveyList'
+    }
   ];
 }

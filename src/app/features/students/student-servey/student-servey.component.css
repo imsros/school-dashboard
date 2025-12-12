@@ -1,0 +1,42 @@
+.student-survey-container {
+    width: 98%;
+    margin: auto;
+}
+
+table {
+    width: 100%;
+}
+
+.mat-mdc-form-field {
+    font-size: 14px;
+    width: 100%;
+}
+
+td,
+th {
+    min-width: auto;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* :host ::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+    width: 15%;
+} */
+.student-survey-header {
+    display: flex;
+    margin-top: 20px;
+}
+
+.student-survey-header .title {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+}
+
+.student-survey-header .right-side {
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+    align-items: center;
+}

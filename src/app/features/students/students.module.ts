@@ -15,6 +15,9 @@ import { GenderPipe } from 'src/app/core/pipe/gender.pipe';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { DeleteDialogComponent } from './student-list/delete-dialog/delete-dialog.component';
 import { StudentServeyComponent } from './student-servey/student-servey.component';
+import { StudentAddSurveyComponent } from './student-add-survey/student-add-survey.component';
+
+
 
 @NgModule({
   declarations: [
@@ -25,7 +28,8 @@ import { StudentServeyComponent } from './student-servey/student-servey.componen
     StudentAddComponent,
     GenderPipe,
     DeleteDialogComponent,
-    StudentServeyComponent
+    StudentServeyComponent,
+    StudentAddSurveyComponent,
   ],
   imports: [
     CommonModule,
