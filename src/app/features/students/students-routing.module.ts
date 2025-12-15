@@ -20,6 +20,12 @@ const routes: Routes = [
     children: [
       {
         path: 'add', component: StudentAddSurveyDialogComponent
+      },
+      {
+        path: 'edit/:id', component: StudentAddSurveyDialogComponent
+      },
+      {
+        path: 'preview', component: StudentAddSurveyDialogComponent
       }
     ]
   },

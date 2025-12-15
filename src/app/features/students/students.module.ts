@@ -16,7 +16,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { DeleteDialogComponent } from './student-list/delete-dialog/delete-dialog.component';
 import { StudentServeyComponent } from './student-servey/student-servey.component';
 import { StudentAddSurveyComponent } from './student-add-survey/student-add-survey.component';
-
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { SurveyPreviewComponent } from './survey-preview/survey-preview.component';
+import { MatCheckboxModule } from '@angular/material/checkbox'
 
 
 @NgModule({
@@ -30,6 +32,7 @@ import { StudentAddSurveyComponent } from './student-add-survey/student-add-surv
     DeleteDialogComponent,
     StudentServeyComponent,
     StudentAddSurveyComponent,
+    SurveyPreviewComponent,
   ],
   imports: [
     CommonModule,
@@ -39,13 +42,16 @@ import { StudentAddSurveyComponent } from './student-add-survey/student-add-surv
     FormsModule,
     ReactiveFormsModule,
     DatePipe,
-    MatTooltipModule
+    MatTooltipModule,
+    MatFormFieldModule,
+    MatCheckboxModule
   ],
   exports: [
     StudentListComponent,
     StudentHomeComponent,
     StudentInformationComponent,
     StudentScheduleComponent,
+
   ],
 })
 export class StudentsModule { }

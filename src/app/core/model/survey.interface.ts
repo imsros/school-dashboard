@@ -1,5 +1,6 @@
 export interface SurveyForm {
-    id?: number;
+    id?: string;
+    title: string;
     created_date: string;
     expire_date: string;
     questions: Question[];
@@ -8,7 +9,7 @@ export interface SurveyForm {
 export interface Question {
     id?: number;
     questionText: string;
-    questionType: 'single' | 'multiple';  //telling ts what value are allowed, called literal type
+    answerType: 'single' | 'multiple';  //telling ts what value are allowed, called literal type
     showDirection: 'vertical' | 'horizontal';
     answers: Answer[];
 }

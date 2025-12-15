@@ -10,7 +10,19 @@ export class SurveyService {
   private apiSurvey = 'http://localhost:3000/surveys'
   constructor(private http: HttpClient) { }
 
-  createSurvey(survey: SurveyForm): Observable<SurveyForm[]> {
-    return this.http.post<SurveyForm[]>(this.apiSurvey, survey);
+  createSurvey(survey: SurveyForm): Observable<SurveyForm> {
+    return this.http.post<SurveyForm>(this.apiSurvey, survey);
+  }
+  getAllSurvey(): Observable<SurveyForm[]> {
+    return this.http.get<SurveyForm[]>(this.apiSurvey);
+  }
+  getSurveyByID(id: string): Observable<SurveyForm> {
+    return this.http.get<SurveyForm>(`${this.apiSurvey}/${id}`)
+  }
+  updateSurvey(id: string, partial: Partial<SurveyForm>): Observable<SurveyForm> {
+    return this.http.patch<SurveyForm>(`${this.apiSurvey}/${id}`, partial);
+  }
+  deleteSurvey(id: string): Observable<SurveyForm> {
+    return this.http.delete<SurveyForm>(`${this.apiSurvey}/${id}`);
   }
 }

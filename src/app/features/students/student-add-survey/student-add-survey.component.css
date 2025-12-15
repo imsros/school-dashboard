@@ -1,0 +1,82 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.title {
+    display: flex;
+    gap: 50px;
+}
+
+:host ::ng-deep .mat-mdc-form-field-has-icon-suffix .mat-mdc-text-field-wrapper {
+    min-width: 500px;
+}
+
+::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+    min-width: 500px;
+}
+
+.btn-close {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.add-question {
+    margin: 20px 0;
+    padding: 20px;
+    position: relative;
+    border-radius: 8px;
+    border: 1px solid black;
+    border-radius: 20px;
+}
+
+.btn-close {
+    position: absolute;
+    top: -15px;
+    right: 5px;
+    z-index: 10;
+}
+
+.answer-box {
+    margin-top: 20px;
+    padding: 15px;
+}
+
+.direction {
+    margin: 15px 0;
+}
+
+.question {
+    display: flex;
+    gap: 20px;
+}
+
+.answer-box {
+    width: 60%;
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid black;
+    border-radius: 20px;
+}
+
+.student-add-survey-container {
+    width: 100%;
+}
+
+::ng-deep .mat-mdc-dialog-container .mdc-dialog__title {
+    /* color: red; */
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+}
+
+
+fieldset {
+    font-family: 'Poppins', sans-serif;
+}
+
+mat-label,
+mat-select,
+mat-input {
+    font-family: 'Poppins', sans-serif;
+}

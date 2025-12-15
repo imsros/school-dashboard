@@ -120,5 +120,134 @@
       "department": "Computer Science",
       "date_hired": "2025-12-10T17:00:00.000Z"
     }
+  ],
+  "surveys": [
+    {
+      "id": "b128",
+      "title": "First Test",
+      "created_date": "",
+      "expire_date": "2025-12-15T17:00:00.000Z",
+      "questions": [
+        {
+          "questionText": "What is the eqality of 1 + 1?",
+          "answerType": "single",
+          "showDirection": "vertical",
+          "answers": [
+            {
+              "answerText": "10"
+            },
+            {
+              "answerText": "2"
+            },
+            {
+              "answerText": "11"
+            },
+            {
+              "answerText": "0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "5c46",
+      "title": "Second Test",
+      "created_date": "2025-12-15T06:34:11.524Z",
+      "expire_date": "2025-12-15T17:00:00.000Z",
+      "questions": [
+        {
+          "questionText": "What two thing are not fruit?",
+          "answerType": "multiple",
+          "showDirection": "vertical",
+          "answers": [
+            {
+              "answerText": "Book"
+            },
+            {
+              "answerText": "Banana"
+            },
+            {
+              "answerText": "Orange"
+            },
+            {
+              "answerText": "Pen"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "d72f",
+      "title": "Third test",
+      "created_date": "2025-12-15T06:57:58.461Z",
+      "expire_date": "2025-12-16T17:00:00.000Z",
+      "questions": [
+        {
+          "questionText": "What is the full form of AI?",
+          "answerType": "single",
+          "showDirection": "vertical",
+          "answers": [
+            {
+              "answerText": "Artificial Institude"
+            },
+            {
+              "answerText": "Artist Intelligence"
+            },
+            {
+              "answerText": "Artificial Information"
+            },
+            {
+              "answerText": "Artificial Intelligence"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "23cc",
+      "title": "Furth Test",
+      "created_date": "2025-12-15T08:04:00.840Z",
+      "expire_date": "2025-12-17T17:00:00.000Z",
+      "questions": [
+        {
+          "questionText": "What is the square root of 256?",
+          "answerType": "single",
+          "showDirection": "vertical",
+          "answers": [
+            {
+              "answerText": "16"
+            },
+            {
+              "answerText": "26"
+            },
+            {
+              "answerText": "36"
+            },
+            {
+              "answerText": "46"
+            }
+          ]
+        },
+        {
+          "questionText": "Solve for x: 5x - 10 = 20",
+          "answerType": "single",
+          "showDirection": "vertical",
+          "answers": [
+            {
+              "answerText": "10"
+            },
+            {
+              "answerText": "6"
+            },
+            {
+              "answerText": "60"
+            },
+            {
+              "answerText": "1"
+            }
+          ]
+        }
+      ]
+    }
   ]
 }

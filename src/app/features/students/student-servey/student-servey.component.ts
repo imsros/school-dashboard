@@ -7,6 +7,7 @@ import { SurveyForm } from 'src/app/core/model/survey.interface';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 import { ActivatedRoute, Router } from '@angular/router';
+import { SurveyService } from 'src/app/core/services/survey.service';
 
 
 @Component({
@@ -15,8 +16,8 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./student-servey.component.css']
 })
 export class StudentServeyComponent implements OnInit {
-  displayedColumns: string[] = ['position', 'title', 'created_date', 'expire_date', 'question', 'submitted_answer', 'actions'];
-  dataSource: MatTableDataSource<SurveyForm>;
+  public displayedColumns: string[] = ['position', 'title', 'created_date', 'expire_date', 'questions', 'submitted_answer', 'actions'];
+  public dataSource: MatTableDataSource<SurveyForm>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -24,33 +25,25 @@ export class StudentServeyComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private surveyService: SurveyService
   ) {
     // Assign the data to the data source for the table to render
     this.dataSource = new MatTableDataSource<SurveyForm>;
   }
 
   ngOnInit(): void {
-    this.route.children.forEach(child => {
-      child.url.subscribe(url => {
-        if (url.some(segment => segment.path === 'new')) {
-          this.openDialogFromRoute();
-        }
-      })
+    this.fetchSurvey();
+  }
+  public fetchSurvey() {
+    this.surveyService.getAllSurvey().subscribe((response) => {
+      console.log(this.dataSource.data = response);
     })
   }
-  openDialogFromRoute() {
 
-    // const dialogRef = this.dialog.open(SurveyDialogComponent, {
-    //   width: '900px'
-
-    // });
-
-    // dialogRef.afterClosed().subscribe(() => {
-    //   this.router.navigate(['/student/studentSurveyList']); // back to list
-    // });
+  public fetchUserById(id: string) {
+    this.router.navigateByUrl("/student/studentSurveyList/edit/:id" + id).then(() => { });
   }
-
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -64,16 +57,7 @@ export class StudentServeyComponent implements OnInit {
     }
   }
 
-  openDialog() {
-    // const dialogRef = this.dialog.open(SurveyDialogComponent);
-    // this.router.navigateByUrl('/studentSurveyList/new');
-    // dialogRef.afterClosed().subscribe(result => {
-    //   console.log(`Dialog result: ${result}`);
-    // });
-    // this.router.navigate(['new'], { relativeTo: this.route });
-    this.router.navigate(['/student', 'studentSurveyList', 'new']);
-    alert('dialog open.')
-  }
+
 }
 
 
