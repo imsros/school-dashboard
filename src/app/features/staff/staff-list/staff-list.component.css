@@ -198,6 +198,7 @@ tr.example-element-row:not(.example-expanded-row):active {
 }
 
 .table-row {
+    width: 100%;
     cursor: pointer;
     font-family: 'Poppins', sans-serif;
     min-width: auto;

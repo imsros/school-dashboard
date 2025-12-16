@@ -11,13 +11,12 @@ import { StudentsService } from 'src/app/core/services/students.service';
 })
 export class StudentAddComponent implements OnInit {
   formStudent!: FormGroup;
-  public edit = false;
+  // public edit = false;
   public studentID: string = '';
   public genders = [
     { label: 'Male', value: 'M' },
     { label: 'Female', value: 'F' }
   ]
-
 
   departmentOptions: Departments[] = [
     { department: 'Biology', value: 'Biology' },
@@ -41,8 +40,8 @@ export class StudentAddComponent implements OnInit {
     this.formValidate();
     const id = this.route.snapshot.paramMap.get('id'); //get the id that exit into the URL
     this.studentID = id ? id.toString() : '';   //if the id exist, convert to string, otherwise set to empty string
-    this.edit = id !== null;
-    if (this.edit) {
+    // this.edit = id !== null;
+    if (id) {
       this.getStudentById();
       this.getStudentContact();
     }
@@ -95,19 +94,18 @@ export class StudentAddComponent implements OnInit {
   getStudentContact() {
     this.studentService.getStudentById(this.studentID).subscribe((student) => {
       if (!student.contact) return;
-      else {
-        this.contact.clear();
-        student.contact.forEach((studentContact: any) => {
-          this.contact.push(
-            this.fb.group({
-              username: [studentContact.username],
-              relative: [studentContact.relative],
-              telephone: [studentContact.telephone],
-              address: [studentContact.address]
-            })
-          )
-        })
-      }
+      this.contact.clear();
+      student.contact.forEach((studentContact: any) => {
+        this.contact.push(
+          this.fb.group({
+            username: [studentContact.username],
+            relative: [studentContact.relative],
+            telephone: [studentContact.telephone],
+            address: [studentContact.address]
+          })
+        )
+      })
+
     })
   }
   //helper method, which returns the contact FormArray from the model 
@@ -145,16 +143,14 @@ export class StudentAddComponent implements OnInit {
     reader.readAsDataURL(file);   //this tells FileReader to read the image and convert it to Base64 Data URL
   }
   onSubmit() {
-    if (this.formStudent.invalid) {
-      return alert('Data validation is invalid...');
-    } else {
-      if (this.edit && this.studentID) {
-        alert('edit');
-        this.editStudent(this.studentID);
-      } else {
-        alert('add student')
-        this.createStudent();
-      }
-    }
+    if (this.formStudent.invalid) return;
+    this.studentID ? this.editStudent(this.studentID) : this.createStudent();
+    // if (this.studentID) {
+    //   this.editStudent(this.studentID);
+
+    // } else {
+    //   this.createStudent();
+    // }
+
   }
 }

@@ -6,6 +6,7 @@ import { SurveyForm } from 'src/app/core/model/survey.interface';
 import { SurveyService } from 'src/app/core/services/survey.service';
 import { SurveyPreviewComponent } from '../survey-preview/survey-preview.component';
 import { StudentAddSurveyDialogComponent } from './student-add-survey-dialog.component';
+import { MatSnackBar, MatSnackBarHorizontalPosition } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-student-add-survey',
@@ -15,14 +16,29 @@ import { StudentAddSurveyDialogComponent } from './student-add-survey-dialog.com
 export class StudentAddSurveyComponent implements OnInit {
   public formSurvey !: FormGroup;
   public survey: SurveyForm[] = [];
-  public surveyID?: string;
+  public surveyID: string = '';
   public isSaving: boolean = false;
   constructor(public dialog: MatDialog, public dialogRef: MatDialogRef<StudentAddSurveyComponent>, private fb: FormBuilder,
-    private surveyService: SurveyService, private router: Router, private activatedRoute: ActivatedRoute,) { }
+    private surveyService: SurveyService, private router: Router, private activatedRoute: ActivatedRoute,
+    private _snackBar: MatSnackBar) { }
+
+  // reusable helper
+  showSnack(message: string, type: 'success' | 'error' = 'success') {
+    this._snackBar.open(message, 'Close', {
+      duration: 3000,
+      horizontalPosition: 'right',
+      verticalPosition: 'top',
+      panelClass: type === 'success' ? ['snack-success'] : ['snack-error']
+    });
+  }
 
   ngOnInit(): void {
     this.createForm();
+
+    this.surveyID && this.getDataById(this.surveyID);
+
     this.addQuestion();
+
   }
   public createForm() {
     this.formSurvey = this.fb.group({
@@ -31,6 +47,44 @@ export class StudentAddSurveyComponent implements OnInit {
       expire_date: ['', Validators.required],
       questions: this.fb.array([])
     })
+  }
+  getDataById(id: string) {
+    this.surveyService.getSurveyByID(id).subscribe((res) => {
+      this.formSurvey.patchValue({
+        title: res.title,
+        created_date: res.created_date,
+        expire_date: res.expire_date,
+      });
+      this.getQuestion(res.questions)
+    })
+  }
+  getQuestion(questions: any[]) {
+    if (!questions) return;
+
+    this.questionArray.clear();
+
+    questions.forEach(question => {
+
+      const questionGroup = this.fb.group({
+        questionText: [question.questionText, Validators.required],
+        answerType: [question.answerType],
+        showDirection: [question.showDirection],
+        answers: this.fb.array([])
+      });
+
+      // patch answers
+      if (question.answers) {
+        question.answers.forEach((answer: { answerText: any; }) => {
+          (questionGroup.get('answers') as FormArray).push(
+            this.fb.group({
+              answerText: [answer.answerText, Validators.required]
+            })
+          );
+        });
+      }
+
+      this.questionArray.push(questionGroup);
+    });
   }
 
   get questionArray(): FormArray {
@@ -77,13 +131,55 @@ export class StudentAddSurveyComponent implements OnInit {
   // }
   //extend created_date
   public createSurvey() {
+    // this.surveyService.createSurvey({
+    //   ...this.formSurvey.value,
+    //   created_date: new Date().toISOString()
+    // }).subscribe(response => {
+    //   this.dialogRef.close(true);
+    //   // this.router.navigate(['student/studentSurveyList'])
+    // })
+    if (this.formSurvey.invalid) return;
+
+    this.isSaving = true;
+
     this.surveyService.createSurvey({
       ...this.formSurvey.value,
       created_date: new Date().toISOString()
-    }).subscribe(response => {
-      this.dialogRef.close(true);
-      // this.router.navigate(['student/studentSurveyList'])
-    })
+    }).subscribe({
+      next: () => {
+        this.isSaving = false;
+        this.showSnack('Survey created.');
+        this.dialogRef.close(true);
+      },
+      error: () => {
+        this.isSaving = false;
+        this.showSnack('Failed to create survey.');
+      }
+    });
+  }
+  onSubmit() {
+    if (this.formSurvey.invalid) return;
+    this.surveyID ? this.updateSurvey() : this.createSurvey();
+  }
+
+  public updateSurvey() {
+    if (this.formSurvey.invalid) return;
+
+    this.isSaving = true;
+
+    this.surveyService.updateSurvey(this.surveyID, {
+      ...this.formSurvey.value
+    }).subscribe({
+      next: () => {
+        this.isSaving = false;
+        this.showSnack('Save changed.');
+        this.dialogRef.close(true);
+      },
+      error: () => {
+        this.isSaving = false;
+        this.showSnack('Failed to save change.')
+      }
+    });
   }
 
   openPreview() {

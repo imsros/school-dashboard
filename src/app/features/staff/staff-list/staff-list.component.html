@@ -33,23 +33,21 @@
     </div>
     <div class="table-wrapper">
         <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8">
-            <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
+            <ng-container [matColumnDef]="column" *ngFor="let column of columnsToDisplay">
                 <th mat-header-cell *matHeaderCellDef style="font-family: 'Poppins', sans-serif;"> {{column |
                     titlecase}}
                 </th>
-                <td mat-cell *matCellDef="let element" class="table-row">
-                    <!-- using ngIf for piping the specific column -->
-                    <!-- <span *ngIf="column === 'dob'; else normalCell">{{element[column] | date: 'mediumDate'}}</span> -->
-                    <!-- <span *ngIf="column === 'date_hired'; else normalCell">{{element[column] | date : 'mediumnDate'}}</span> -->
-                    <!-- <ng-template #normalCell>
-                    {{element[column]}}
-                </ng-template> -->
+                <!-- <td mat-cell *matCellDef="let element" class="table-row"> -->
+                <td mat-cell *matCellDef="let element">
                     <ng-container [ngSwitch]="column">
-                        <span *ngSwitchCase="'dob'">{{element[column] | date: 'mediumDate'}}</span>
-                        <span *ngSwitchCase="'date_hired'">{{element[column] | date: 'mediumDate'}}</span>
-
+                        <span *ngSwitchCase="'dob'">
+                            {{ element[column] | date:'mediumDate' }}
+                        </span>
+                        <span *ngSwitchCase="'date_hired'">
+                            {{ element[column] | date:'mediumDate' }}
+                        </span>
                         <span *ngSwitchDefault>
-                            {{element[column]}}
+                            {{ element[column] }}
                         </span>
                     </ng-container>
                 </td>

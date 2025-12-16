@@ -17,6 +17,7 @@ export class StudentAddSurveyDialogComponent implements OnInit {
             if (!params) return;
             else {
                 this.openDialog();
+                console.log(params);
             }
         })
 
@@ -27,7 +28,7 @@ export class StudentAddSurveyDialogComponent implements OnInit {
             disableClose: true
         });
         //
-        dialogRef.componentInstance.survey = this.activatedRoute.snapshot.params['id'];
+        dialogRef.componentInstance.surveyID = this.activatedRoute.snapshot.params['id'];
         dialogRef.afterClosed().subscribe((data: boolean) => {
             if (data) {
                 this.router.navigate(['/student/studentSurveyList'], {

@@ -99,9 +99,10 @@
       <button mat-raised-button color="warn" routerLink="/student/allStudent">
         Cancel
       </button>
-      <button *ngIf="!edit" mat-raised-button color="primary" type="submit">Save</button>
-      <button *ngIf="edit" (click)="editStudent(studentID)" mat-raised-button color="primary"
-        type="button">Update</button>
+      <button mat-raised-button color="primary" type="submit">{{studentID? 'Save' :
+        'Update'}}</button>
+      <!-- <button *ngIf="studentID" (click)="editStudent(studentID)" mat-raised-button color="primary"
+        type="button">Update</button> -->
     </div>
   </form>
 </div>
