@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SurveyForm } from 'src/app/core/model/survey.interface';
 import { SurveyService } from 'src/app/core/services/survey.service';
 import { SurveyPreviewComponent } from '../survey-preview/survey-preview.component';
+import { StudentAddSurveyDialogComponent } from './student-add-survey-dialog.component';
 
 @Component({
   selector: 'app-student-add-survey',
@@ -14,7 +15,10 @@ import { SurveyPreviewComponent } from '../survey-preview/survey-preview.compone
 export class StudentAddSurveyComponent implements OnInit {
   public formSurvey !: FormGroup;
   public survey: SurveyForm[] = [];
-  constructor(public dialog: MatDialog, public dialogRef: MatDialogRef<StudentAddSurveyComponent>, private fb: FormBuilder, private surveyService: SurveyService, private router: Router, private activatedRoute: ActivatedRoute) { }
+  public surveyID?: string;
+  public isSaving: boolean = false;
+  constructor(public dialog: MatDialog, public dialogRef: MatDialogRef<StudentAddSurveyComponent>, private fb: FormBuilder,
+    private surveyService: SurveyService, private router: Router, private activatedRoute: ActivatedRoute,) { }
 
   ngOnInit(): void {
     this.createForm();
@@ -22,18 +26,19 @@ export class StudentAddSurveyComponent implements OnInit {
   }
   public createForm() {
     this.formSurvey = this.fb.group({
-      title: [''],
+      title: ['', Validators.required],
       created_date: [''],
-      expire_date: [''],
+      expire_date: ['', Validators.required],
       questions: this.fb.array([])
     })
   }
+
   get questionArray(): FormArray {
     return this.formSurvey.get('questions') as FormArray;
   }
   createQuestionArray(): FormGroup {
     return this.fb.group({
-      questionText: [''],
+      questionText: ['', Validators.required],
       answerType: ['single'],
       showDirection: ['vertical'],
       answers: this.fb.array([])
@@ -43,7 +48,7 @@ export class StudentAddSurveyComponent implements OnInit {
     const question = this.createQuestionArray();
     (question.get('answers') as FormArray).push(
       this.fb.group({
-        answerText: ['']
+        answerText: ['', Validators.required]
       })
     );
     this.questionArray.push(question);
@@ -70,14 +75,14 @@ export class StudentAddSurveyComponent implements OnInit {
   //     console.log(value, 'data');
   //   })
   // }
-
   //extend created_date
-  createSurvey() {
+  public createSurvey() {
     this.surveyService.createSurvey({
       ...this.formSurvey.value,
       created_date: new Date().toISOString()
     }).subscribe(response => {
-      console.log(response);
+      this.dialogRef.close(true);
+      // this.router.navigate(['student/studentSurveyList'])
     })
   }
 

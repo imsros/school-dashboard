@@ -3,13 +3,14 @@ import { MatDialog } from "@angular/material/dialog";
 import { ActivatedRoute, Router } from "@angular/router";
 import { StudentAddSurveyComponent } from "./student-add-survey.component";
 
+
 @Component({
     selector: 'app-student-add-survey-dialog',
     template: ''
 })
 
 export class StudentAddSurveyDialogComponent implements OnInit {
-    constructor(private dialog: MatDialog, private activatedRoute: ActivatedRoute, private router: Router) { }
+    constructor(private dialog: MatDialog, private activatedRoute: ActivatedRoute, private router: Router,) { }
 
     ngOnInit(): void {
         this.activatedRoute.params.subscribe((params) => {
@@ -18,6 +19,7 @@ export class StudentAddSurveyDialogComponent implements OnInit {
                 this.openDialog();
             }
         })
+
     }
     private openDialog() {
         const dialogRef = this.dialog.open(StudentAddSurveyComponent, {
@@ -25,6 +27,7 @@ export class StudentAddSurveyDialogComponent implements OnInit {
             disableClose: true
         });
         //
+        dialogRef.componentInstance.survey = this.activatedRoute.snapshot.params['id'];
         dialogRef.afterClosed().subscribe((data: boolean) => {
             if (data) {
                 this.router.navigate(['/student/studentSurveyList'], {
@@ -38,4 +41,5 @@ export class StudentAddSurveyDialogComponent implements OnInit {
             }
         })
     }
+
 }

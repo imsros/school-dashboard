@@ -8,6 +8,8 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 import { ActivatedRoute, Router } from '@angular/router';
 import { SurveyService } from 'src/app/core/services/survey.service';
+import { StudentAddSurveyComponent } from '../student-add-survey/student-add-survey.component';
+import { NavigationEnd } from '@angular/router';
 
 
 @Component({
@@ -34,6 +36,12 @@ export class StudentServeyComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchSurvey();
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.fetchSurvey();
+      }
+    });
+
   }
   public fetchSurvey() {
     this.surveyService.getAllSurvey().subscribe((response) => {
@@ -42,8 +50,10 @@ export class StudentServeyComponent implements OnInit {
   }
 
   public fetchUserById(id: string) {
-    this.router.navigateByUrl("/student/studentSurveyList/edit/:id" + id).then(() => { });
+    console.log('id', id);
+    this.router.navigateByUrl(`/student/studentSurveyList/edit/${id}`).then(() => { });
   }
+
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;

@@ -23,9 +23,6 @@ const routes: Routes = [
       },
       {
         path: 'edit/:id', component: StudentAddSurveyDialogComponent
-      },
-      {
-        path: 'preview', component: StudentAddSurveyDialogComponent
       }
     ]
   },
