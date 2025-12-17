@@ -38,7 +38,7 @@ export class StudentAddComponent implements OnInit {
 
   ngOnInit(): void {
     this.formValidate();
-    const id = this.route.snapshot.paramMap.get('id'); //get the id that exit into the URL
+    const id = this.route.snapshot.paramMap.get('id'); //get the id that exist into the URL
     this.studentID = id ? id.toString() : '';   //if the id exist, convert to string, otherwise set to empty string
     // this.edit = id !== null;
     if (id) {
@@ -59,7 +59,7 @@ export class StudentAddComponent implements OnInit {
       contact: this.fb.array([]),
     });
   }
-
+  // create via service
   createStudent() {
     this.studentService
       .addStudent(this.formStudent.value)
@@ -89,6 +89,7 @@ export class StudentAddComponent implements OnInit {
       this.router.navigate(['/student/allStudent']);
     })
   }
+
   //get data in form array
   //fetch and update
   getStudentContact() {

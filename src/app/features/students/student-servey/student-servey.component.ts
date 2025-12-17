@@ -10,6 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SurveyService } from 'src/app/core/services/survey.service';
 import { StudentAddSurveyComponent } from '../student-add-survey/student-add-survey.component';
 import { NavigationEnd } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -20,7 +21,6 @@ import { NavigationEnd } from '@angular/router';
 export class StudentServeyComponent implements OnInit {
   public displayedColumns: string[] = ['position', 'title', 'created_date', 'expire_date', 'questions', 'submitted_answer', 'actions'];
   public dataSource: MatTableDataSource<SurveyForm>;
-
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -28,9 +28,10 @@ export class StudentServeyComponent implements OnInit {
     public dialog: MatDialog,
     private router: Router,
     private route: ActivatedRoute,
-    private surveyService: SurveyService
+    private surveyService: SurveyService,
+    private _snackBar: MatSnackBar
   ) {
-    // Assign the data to the data source for the table to render
+    // Assign the data to the datasource for the table to render
     this.dataSource = new MatTableDataSource<SurveyForm>;
   }
 
@@ -43,6 +44,14 @@ export class StudentServeyComponent implements OnInit {
     });
 
   }
+  showSnack(message: string, type: 'success' | 'error' = 'success') {
+    this._snackBar.open(message, 'Close', {
+      duration: 3000,
+      horizontalPosition: 'right',
+      verticalPosition: 'top',
+      panelClass: type === 'success' ? ['snack-success'] : ['snack-error']
+    });
+  }
   public fetchSurvey() {
     this.surveyService.getAllSurvey().subscribe((response) => {
       console.log(this.dataSource.data = response);
@@ -50,8 +59,23 @@ export class StudentServeyComponent implements OnInit {
   }
 
   public fetchUserById(id: string) {
-    console.log('id', id);
     this.router.navigateByUrl(`/student/studentSurveyList/edit/${id}`).then(() => { });
+  }
+  public viewSurvey(id: string) {
+    this.router.navigateByUrl(`/student/studentSurveyList/view/${id}`).then(() => { });
+  }
+
+  deleteSurvey(id: string) {
+    this.surveyService.deleteSurvey(id).subscribe({
+      next: () => {
+        const deleteSurvey = this.dataSource.data.filter(s => s.id !== id);
+        this.dataSource.data = deleteSurvey;
+        this.showSnack('Survey deleted.');
+      },
+      error: () => {
+        console.log('Failed to delete survey.');
+      }
+    })
   }
 
   ngAfterViewInit() {
@@ -66,8 +90,6 @@ export class StudentServeyComponent implements OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
-
-
 }
 
 

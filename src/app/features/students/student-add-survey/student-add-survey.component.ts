@@ -15,6 +15,7 @@ import { MatSnackBar, MatSnackBarHorizontalPosition } from '@angular/material/sn
 })
 export class StudentAddSurveyComponent implements OnInit {
   public formSurvey !: FormGroup;
+  public viewMode = false;
   public survey: SurveyForm[] = [];
   public surveyID: string = '';
   public isSaving: boolean = false;
@@ -34,6 +35,9 @@ export class StudentAddSurveyComponent implements OnInit {
 
   ngOnInit(): void {
     this.createForm();
+    if (this.router.url.includes('/view/')) {
+      this.viewMode = true;
+    }
 
     this.surveyID && this.getDataById(this.surveyID);
 
@@ -55,7 +59,11 @@ export class StudentAddSurveyComponent implements OnInit {
         created_date: res.created_date,
         expire_date: res.expire_date,
       });
-      this.getQuestion(res.questions)
+      this.getQuestion(res.questions);
+
+      if (this.viewMode) {
+        this.formSurvey.disable();
+      }
     })
   }
   getQuestion(questions: any[]) {

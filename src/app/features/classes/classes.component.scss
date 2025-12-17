@@ -1,6 +1,53 @@
-h1{
-    font-family: 'Poppins', sans-serif;
-    font-weight: 600;
-    font-size: 20px;
-    margin: 10px ;
+// Variables
+$primary-color: #3f51b5;
+$bg-color: #f5f7fa;
+$white: #ffffff;
+$text-color: #333;
+$radius: 10px;
+
+// Mixins
+@mixin card($bg) {
+  background: $bg;
+  padding: 16px;
+  border-radius: $radius;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+h1 {
+  margin: 20px 20px;
+  color: $primary-color;
+}
+
+.class-container {
+  background: $bg-color;
+  padding: 20px;
+  border-radius: $radius;
+}
+
+.header {
+  height: 50px;
+  border-radius: $radius;
+  margin-bottom: 20px;
+  button{
+    width: 30px;
+    height: 30px
+  }
+}
+
+.class-body {
+  @include card($white);
+}
+
+mat-grid-tile {
+  @include card(lighten($primary-color, 30%));
+  @include flex-center;
+  color: $text-color;
+  font-size: 18px;
+  font-weight: 500;
 }

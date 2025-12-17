@@ -22,11 +22,6 @@ th {
   white-space: nowrap;
 }
 
-/* td,
-th {
-  white-space: nowrap;
-} */
-
 .student-list-container {
   width: 95%;
   margin: auto;
@@ -52,7 +47,6 @@ h1 {
   align-items: center;
   gap: 20px;
   margin-top: 50px;
-  /* align-items: center; */
 }
 
 .header-title {
@@ -77,19 +71,12 @@ h1 {
     overflow-x: auto;
   }
 
-  /* .student-list-table table {
-    min-width: 600px;
-  } */
-
   .student-list-table mat-paginator {
     position: sticky;
     left: 0;
     right: 0;
   }
 
-  /* :host ::ng-deep .mat-sort-header-content {
-    min-width: 100px;
-  } */
   :host ::ng-deep .mat-sort-header-content {
     min-width: auto;
   }
@@ -104,15 +91,11 @@ h1 {
   }
 }
 
-@media (min-width: 768px) and (max-width: 991px) {
+@media (min-width: 768px) and (max-width: 990px) {
 
   .student-list-table {
     overflow-x: auto;
   }
-
-  /* .student-list-table table {
-    min-width: 600px;
-  } */
 
   .student-list-table mat-paginator {
     position: sticky;
@@ -129,14 +112,10 @@ h1 {
     padding: 10px;
   }
 
-
-  /* ::ng-deep .mat-drawer-transition .mat-drawer-content {
-    margin-left: 0 !important;
-  } */
 }
 
 /* 992 - 1199 */
-@media (min-width: 992px) and (max-width: 1199) {
+@media (min-width: 992px) {
 
 
   :host ::ng-deep .mat-sort-header-content {
@@ -147,10 +126,9 @@ h1 {
     overflow-x: auto;
   }
 
-  /* .student-list-table table {
-    min-width: 800px;
-  } */
-  /* ::ng-deep .mat-drawer-transition .mat-drawer-content {
-    margin-left: 230px !important;
-  } */
+  .student-list-table mat-paginator {
+    position: sticky;
+    left: 0;
+    right: 0
+  }
 }

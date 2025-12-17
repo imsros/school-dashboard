@@ -48,12 +48,13 @@
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Actions </th>
                 <td mat-cell *matCellDef="let row">
                     <button mat-icon-button matTooltip="View" color="accent"
-                        (click)="fetchUserById(row?.id)"><mat-icon>visibility</mat-icon></button>
+                        (click)="viewSurvey(row?.id)"><mat-icon>visibility</mat-icon></button>
                     <button mat-icon-button matTooltip="Edit" color="primary" aria-label="Edit Student"
                         (click)="fetchUserById(row?.id)">
                         <mat-icon>edit</mat-icon>
                     </button>
-                    <button mat-icon-button matTooltip="Delete" color="warn" aria-label="Delete Student">
+                    <button mat-icon-button matTooltip="Delete" color="warn" aria-label="Delete Student"
+                        (click)="deleteSurvey(row?.id)">
                         <mat-icon>delete</mat-icon>
                     </button>
 

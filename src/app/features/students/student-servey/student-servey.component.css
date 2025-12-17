@@ -18,9 +18,6 @@ th {
     font-family: 'Poppins', sans-serif;
 }
 
-/* :host ::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
-    width: 15%;
-} */
 .student-survey-header {
     display: flex;
     margin-top: 20px;
@@ -39,4 +36,14 @@ th {
     justify-content: flex-end;
     gap: 20px;
     align-items: center;
+}
+
+@media (max-width: 600px) and (max-width: 767px) {
+    .student-survey-header {
+        width: 100%;
+    }
+
+    .student-survey-header .right-side {
+        width: 40%;
+    }
 }
