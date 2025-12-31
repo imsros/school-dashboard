@@ -1,10 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { DaysOption, Lecturer } from 'src/app/core/model/lecturere.interface';
 import { LecturerService } from 'src/app/core/services/lecturer.service';
-import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-lecturer-add',
@@ -15,10 +14,15 @@ export class LecturerAddComponent implements OnInit {
   public preview: string | ArrayBuffer | null = 'https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png';
   formLecturer!: FormGroup;
   public lecturer: Lecturer[] = []; //array instance of interface
-  constructor(public dialog: MatDialog, private fb: FormBuilder, private lecturerService: LecturerService, private router: Router, private route: ActivatedRoute, public dialogRef: MatDialogRef<LecturerAddComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: string,) { }
+  constructor(
+    public dialog: MatDialog,
+    private fb: FormBuilder,
+    private lecturerService: LecturerService,
+    public dialogRef: MatDialogRef<LecturerAddComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: string,
+  ) { }
 
-  daysOptions: DaysOption[] = [
+  public daysOptions: DaysOption[] = [
     { day: 'Monday', value: 'monday' },
     { day: 'Tuesday', value: 'tuesday' },
     { day: 'Wednesday', value: 'wednesday' },
@@ -32,11 +36,11 @@ export class LecturerAddComponent implements OnInit {
       this.loadLecturerForEdit(this.data);
     }
   }
-  formValidate() {
+  private formValidate() {
     this.formLecturer = this.fb.group({
       id: [''],
-      username: [''],
-      email: [''],
+      username: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
       phone: [null],
       profession: this.fb.array([]),
       available_hour: this.fb.array([]),
@@ -77,10 +81,10 @@ export class LecturerAddComponent implements OnInit {
   removeHour(parentIndex: number, hourIndex: number): void {
     this.getHourArray(parentIndex).removeAt(hourIndex);
   }
-  triggleUpload() {
+  public triggleUpload() {
     document.getElementById('fileInput')?.click();
   }
-  onImageChange(event: any) {
+  public onImageChange(event: any) {
     const file = event.target.files && event.target.files[0];
     if (!file) {
       return;   //if no file selected, function stop.
@@ -93,18 +97,18 @@ export class LecturerAddComponent implements OnInit {
     reader.readAsDataURL(file);
   }
 
-  updateLecturer() {
+  private updateLecturer() {
     this.lecturerService.updateLecturer(this.data, this.formLecturer.value)
       .subscribe(() => {
         this.dialogRef.close(true);
       });
   }
-  createLecturer() {
+  private createLecturer() {
     this.lecturerService.createLecturer(this.formLecturer.value).subscribe((value) => {
       console.log(value, 'data');
     })
   }
-  loadLecturerForEdit(id: string) {
+  private loadLecturerForEdit(id: string) {
     this.lecturerService.getLecturerById(id).subscribe((lecturer) => {
       this.formLecturer.patchValue({
         id: lecturer.id,
@@ -138,13 +142,13 @@ export class LecturerAddComponent implements OnInit {
   }
 
 
-  onSubmit() {
+  public onSubmit() {
     if (this.formLecturer.invalid) return alert('Form validation failed');
 
     if (this.data) {
-      this.updateLecturer();   // edit mode
+      this.updateLecturer();
     } else {
-      this.createLecturer();   // create mode
+      this.createLecturer();
     }
   }
 }

@@ -17,8 +17,6 @@ import { MatTableDataSource } from '@angular/material/table';
   ],
 })
 export class StaffListComponent implements OnInit {
-  // isLoggedIn = false;
-
   public staffs: Staff[] = [];
   public search: string = '';
   dataSource = new MatTableDataSource<Staff>();
@@ -30,15 +28,8 @@ export class StaffListComponent implements OnInit {
   ngOnInit(): void {
     this.fetchStaff();
   }
-
   fetchStaff() {
     this.staffService.getAllStaff().subscribe((response) => {
-      console.log(response);
-      // const staffWithId = response.map(s => ({
-      //   ...s,
-      //   id: s.id
-      // }));
-      // this.dataSource.data = staffWithId;
       this.dataSource.data = response;
     });
   }
@@ -58,16 +49,7 @@ export class StaffListComponent implements OnInit {
   }
 
   searchStaff() {
-    const value = this.search.toLowerCase().trim();
-    this.dataSource = new MatTableDataSource(
-      this.staffs.filter((staff) => {
-        staff.staff_code.toLowerCase().includes(value),
-          staff.fullname.toLowerCase().includes(value),
-          staff.national_id.toLowerCase().includes(value),
-          staff.phone.toString().toLowerCase().includes(value),
-          staff.email.toLowerCase().includes(value)
-      })
-    )
+    this.dataSource.filter = this.search.trim().toLowerCase();
   }
 
 }

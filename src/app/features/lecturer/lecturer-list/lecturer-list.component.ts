@@ -2,10 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { LecturerAddComponent } from '../lecturer-add/lecturer-add.component';
 import { Lecturer } from 'src/app/core/model/lecturere.interface';
-import { Form, FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { LecturerService } from 'src/app/core/services/lecturer.service';
 
-// const ELEMENT_DATA: Lecturer[] = [];
 @Component({
   selector: 'app-lecturer-list',
   templateUrl: './lecturer-list.component.html',
@@ -13,8 +11,7 @@ import { LecturerService } from 'src/app/core/services/lecturer.service';
 })
 export class LecturerListComponent implements OnInit {
   displayedColumns: string[] = ['position', 'id', 'username', 'email', 'phone', 'profession', 'image', 'actions'];
-  ELEMENT_DATA: Lecturer[] = [];
-  dataSource = this.ELEMENT_DATA;
+  dataSource: Lecturer[] = [];
   clickedRows = new Set<Lecturer>();
 
   constructor(public dialog: MatDialog, private lecturerService: LecturerService) { }
@@ -25,7 +22,6 @@ export class LecturerListComponent implements OnInit {
 
   fetchLecturer() {
     this.lecturerService.getAllLecturer().subscribe((response) => {
-      this.ELEMENT_DATA = response;
       this.dataSource = response;
     })
   }
@@ -36,7 +32,6 @@ export class LecturerListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       this.fetchLecturer();
-      console.log(`Dialog result : ${result}`);
     });
   }
   deleteLecturerById(id: string) {
@@ -51,5 +46,4 @@ export class LecturerListComponent implements OnInit {
   edit(id: string) {
     this.openDialog(id);
   }
-
 }

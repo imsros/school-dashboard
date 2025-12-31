@@ -7,7 +7,7 @@ import { NgFor, AsyncPipe } from '@angular/common';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { ElementRef, ViewChild, inject } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { StaffService } from 'src/app/core/services/staff.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Staff } from 'src/app/core/model/staff.interface';
@@ -46,23 +46,18 @@ export class StaffAddComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
-
-
-
-
     this.formStaff = this.fb.group({
       image: [''],
-      staff_code: [''],
-      fullname: [''],
-      gender: [''],
-      dob: [''],
-      national_id: [''],
-      phone: [''],
-      email: [''],
-      position: [''],
-      department: [''],
-      date_hired: [''],
+      staff_code: ['', Validators.required],
+      fullname: ['', Validators.required],
+      gender: ['', Validators.required],
+      dob: ['', Validators.required],
+      national_id: ['', Validators.required],
+      phone: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      position: ['', Validators.required],
+      department: ['', Validators.required],
+      date_hired: ['', Validators.required],
     })
 
     const id = this.router.snapshot.paramMap.get('id');
@@ -75,11 +70,11 @@ export class StaffAddComponent implements OnInit {
     this.staffID = id ? id.toString() : '';
   }
 
-  triggleUpload() {
+  public triggleUpload() {
     document.getElementById('fileInput')?.click();
   }
 
-  onImageChange(event: any) {
+  public onImageChange(event: any) {
     const file = event.target.files && event.target.files[0];
     if (!file) {
       return;   //if no file selected, function stop.
@@ -91,37 +86,13 @@ export class StaffAddComponent implements OnInit {
     };
     reader.readAsDataURL(file);
   }
-  createStaff() {
+  private createStaff() {
     this.staffService.createStaff(this.formStaff.value).subscribe((value) => {
       console.log(value, 'data');
 
     })
   }
-  // getStaffById() {
-  //   this.staffService.getStaffById(this.staffID).subscribe((staff) => {
-  //     this.formStaff.patchValue({
-  //       image: staff.image,
-  //       staff_code: staff.staff_code,
-  //       fullname: staff.fullname,
-  //       gender: staff.gender,
-  //       dob: staff.dob,
-  //       natinal_id: staff.national_id,
-  //       phone: staff.phone,
-  //       email: staff.email,
-  //       position: staff.position,
-  //       department: staff.department,
-  //       date_hired: staff.date_hired
-  //     })
-  //     this.preview = staff.image
-  //     //set preview outside patchValue because patchValue updates the form controls, not the component UI variables.
-  //   })
-  // }
-
-  submitStaff() {
-    // if (this.formStaff.valid) {
-    //   this.createStaff();
-    //   this.route.navigate(['/staff/allStaff']);
-    // }
+  public submitStaff() {
     if (!this.formStaff.valid) return;
     const id = this.router.snapshot.paramMap.get('id');
     if (id) {
@@ -134,8 +105,6 @@ export class StaffAddComponent implements OnInit {
       ])
     }
   }
-
-
   //from angular material chips
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
