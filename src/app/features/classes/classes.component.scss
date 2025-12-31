@@ -5,7 +5,7 @@ $white: #ffffff;
 $text-color: #333;
 $radius: 10px;
 
-// Mixins
+// Mixins : block of reusable css 
 @mixin card($bg) {
   background: $bg;
   padding: 16px;
@@ -28,26 +28,40 @@ h1 {
   background: $bg-color;
   padding: 20px;
   border-radius: $radius;
-}
+  .header {
+    height: 50px;
+    border-radius: $radius;
+    margin-bottom: 20px;
+    button{
+      width: 30px;
+      height: 30px
+    }
+  }
+  .class-body {
+    @include card($white);
 
-.header {
-  height: 50px;
-  border-radius: $radius;
-  margin-bottom: 20px;
-  button{
-    width: 30px;
-    height: 30px
+    mat-grid-tile {
+      @include card(lighten($primary-color, 30%));
+      @include flex-center;
+      color: $text-color;
+      font-size: 18px;
+      font-weight: 500;
+    }
   }
 }
 
-.class-body {
-  @include card($white);
+.list-view {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-mat-grid-tile {
-  @include card(lighten($primary-color, 30%));
-  @include flex-center;
-  color: $text-color;
-  font-size: 18px;
-  font-weight: 500;
+.list-item {
+  height: 120px;
+  background: #b8bce6;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+

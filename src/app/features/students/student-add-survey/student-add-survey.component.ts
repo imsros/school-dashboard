@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { SurveyForm } from 'src/app/core/model/survey.interface';
 import { SurveyService } from 'src/app/core/services/survey.service';
 import { SurveyPreviewComponent } from '../survey-preview/survey-preview.component';
-import { StudentAddSurveyDialogComponent } from './student-add-survey-dialog.component';
-import { MatSnackBar, MatSnackBarHorizontalPosition } from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-student-add-survey',
@@ -19,12 +18,26 @@ export class StudentAddSurveyComponent implements OnInit {
   public survey: SurveyForm[] = [];
   public surveyID: string = '';
   public isSaving: boolean = false;
-  constructor(public dialog: MatDialog, public dialogRef: MatDialogRef<StudentAddSurveyComponent>, private fb: FormBuilder,
-    private surveyService: SurveyService, private router: Router, private activatedRoute: ActivatedRoute,
-    private _snackBar: MatSnackBar) { }
 
-  // reusable helper
-  showSnack(message: string, type: 'success' | 'error' = 'success') {
+  constructor(
+    public dialog: MatDialog,
+    public dialogRef: MatDialogRef<StudentAddSurveyComponent>,
+    private fb: FormBuilder,
+    private surveyService: SurveyService,
+    private router: Router,
+    private _snackBar: MatSnackBar
+  ) { }
+
+  ngOnInit(): void {
+    this.createForm();
+    if (this.router.url.includes('/view/')) {
+      this.viewMode = true;
+    }
+    this.surveyID && this.getDataById(this.surveyID);
+    this.addQuestion();
+  }
+
+  private showSnack(message: string, type: 'success' | 'error' = 'success') {
     this._snackBar.open(message, 'Close', {
       duration: 3000,
       horizontalPosition: 'right',
@@ -32,19 +45,7 @@ export class StudentAddSurveyComponent implements OnInit {
       panelClass: type === 'success' ? ['snack-success'] : ['snack-error']
     });
   }
-
-  ngOnInit(): void {
-    this.createForm();
-    if (this.router.url.includes('/view/')) {
-      this.viewMode = true;
-    }
-
-    this.surveyID && this.getDataById(this.surveyID);
-
-    this.addQuestion();
-
-  }
-  public createForm() {
+  private createForm() {
     this.formSurvey = this.fb.group({
       title: ['', Validators.required],
       created_date: [''],
@@ -52,27 +53,11 @@ export class StudentAddSurveyComponent implements OnInit {
       questions: this.fb.array([])
     })
   }
-  getDataById(id: string) {
-    this.surveyService.getSurveyByID(id).subscribe((res) => {
-      this.formSurvey.patchValue({
-        title: res.title,
-        created_date: res.created_date,
-        expire_date: res.expire_date,
-      });
-      this.getQuestion(res.questions);
-
-      if (this.viewMode) {
-        this.formSurvey.disable();
-      }
-    })
-  }
   getQuestion(questions: any[]) {
     if (!questions) return;
 
     this.questionArray.clear();
-
     questions.forEach(question => {
-
       const questionGroup = this.fb.group({
         questionText: [question.questionText, Validators.required],
         answerType: [question.answerType],
@@ -98,7 +83,7 @@ export class StudentAddSurveyComponent implements OnInit {
   get questionArray(): FormArray {
     return this.formSurvey.get('questions') as FormArray;
   }
-  createQuestionArray(): FormGroup {
+  private createQuestionArray(): FormGroup {
     return this.fb.group({
       questionText: ['', Validators.required],
       answerType: ['single'],
@@ -118,6 +103,20 @@ export class StudentAddSurveyComponent implements OnInit {
   removeQuestion(index: number) {
     this.questionArray.removeAt(index);
   }
+  private getDataById(id: string) {
+    this.surveyService.getSurveyByID(id).subscribe((res) => {
+      this.formSurvey.patchValue({
+        title: res.title,
+        created_date: res.created_date,
+        expire_date: res.expire_date,
+      });
+      this.getQuestion(res.questions);
+
+      if (this.viewMode) {
+        this.formSurvey.disable();
+      }
+    })
+  }
 
   getAnswer(index: number): FormArray {
     return this.questionArray.at(index).get('answers') as FormArray;
@@ -132,20 +131,7 @@ export class StudentAddSurveyComponent implements OnInit {
     this.getAnswer(parentIndex).removeAt(answerIndex);
   }
 
-  // createSurvey() {
-  //   this.surveyService.createSurvey(this.formSurvey.value).subscribe((value) => {
-  //     console.log(value, 'data');
-  //   })
-  // }
-  //extend created_date
   public createSurvey() {
-    // this.surveyService.createSurvey({
-    //   ...this.formSurvey.value,
-    //   created_date: new Date().toISOString()
-    // }).subscribe(response => {
-    //   this.dialogRef.close(true);
-    //   // this.router.navigate(['student/studentSurveyList'])
-    // })
     if (this.formSurvey.invalid) return;
 
     this.isSaving = true;
@@ -165,7 +151,7 @@ export class StudentAddSurveyComponent implements OnInit {
       }
     });
   }
-  onSubmit() {
+  public onSubmit() {
     if (this.formSurvey.invalid) return;
     this.surveyID ? this.updateSurvey() : this.createSurvey();
   }
@@ -174,7 +160,6 @@ export class StudentAddSurveyComponent implements OnInit {
     if (this.formSurvey.invalid) return;
 
     this.isSaving = true;
-
     this.surveyService.updateSurvey(this.surveyID, {
       ...this.formSurvey.value
     }).subscribe({
@@ -189,8 +174,7 @@ export class StudentAddSurveyComponent implements OnInit {
       }
     });
   }
-
-  openPreview() {
+  public openPreview() {
     this.dialog.open(SurveyPreviewComponent, {
       width: '600px',
       data: this.formSurvey.value

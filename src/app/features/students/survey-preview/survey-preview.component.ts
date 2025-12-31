@@ -9,5 +9,4 @@ import { SurveyForm } from 'src/app/core/model/survey.interface';
 })
 export class SurveyPreviewComponent {
   constructor(@Inject(MAT_DIALOG_DATA) public data: SurveyForm) { }
-
 }

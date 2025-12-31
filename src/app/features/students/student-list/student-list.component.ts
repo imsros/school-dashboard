@@ -1,16 +1,13 @@
 import { AfterViewInit, Component } from '@angular/core';
-import { UserData } from 'src/app/core/model/userData.interface';
 import { ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { StudentsService } from 'src/app/core/services/students.service';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Student } from 'src/app/core/model/student.interface';
 import { OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
-import { DialogRef } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'app-student-list',
@@ -20,31 +17,32 @@ import { DialogRef } from '@angular/cdk/dialog';
 export class StudentListComponent implements AfterViewInit, OnInit {
   students: Student[] = [];
   public search: string = '';
-  displayedColumns: string[] = [
-    'position',
-    'id',
-    'image',
-    'firstName',
-    'lastName',
-    'email',
-    'gender',
-    'dob',
-    'department',
-    'actions',
+
+  columnDefs = [
+    { key: 'position', label: '#', type: 'index' },
+    { key: 'id', label: 'Code' },
+    { key: 'image', label: 'Image', type: 'image' },
+    { key: 'firstName', label: 'First Name' },
+    { key: 'lastName', label: 'Last Name' },
+    { key: 'email', label: 'Email' },
+    { key: 'gender', label: 'Gender', pipe: 'gender' },
+    { key: 'dob', label: 'Date of Birth', pipe: 'date' },
+    { key: 'department', label: 'Department' },
+    // { key: 'phone', label: 'Phone' }
   ];
-  dataSource: MatTableDataSource<Student>;
+
+  displayedColumns: string[] = [
+    // 'position', 'id', 'image', 'firstName', 'lastName', 'email', 'gender', 'dob', 'department', 'actions',
+    ...this.columnDefs.map(column => column.key), 'actions'
+  ];
+  dataSource = new MatTableDataSource<Student>();  //it helps us 
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
-    private studentService: StudentsService,
-    private router: Router,
-    private route: ActivatedRoute,
-    public dialog: MatDialog
-  ) {
-    this.dataSource = new MatTableDataSource(this.students);
-  }
+    private studentService: StudentsService, public dialog: MatDialog
+  ) { }
 
   ngOnInit(): void {
     this.fetchStudent();
@@ -54,40 +52,14 @@ export class StudentListComponent implements AfterViewInit, OnInit {
     this.dataSource.sort = this.sort;
   }
 
-  fetchStudent(): void {
-    this.studentService.getAllStudent().subscribe((res) => {
-      this.students = res;
-      this.dataSource.data = res;
-      if (this.paginator) {
-        this.dataSource.paginator = this.paginator;
-      }
-      if (this.sort) {
-        this.dataSource.sort = this.sort;
-      }
-    });
+  private fetchStudent(): void {
+    this.studentService.getAllStudent().subscribe(response => this.dataSource.data = response);
   }
-  //table angular material with default search feature
-  // applyFilter(event: Event) {
-  //   const filterValue = (event.target as HTMLInputElement).value;
-  //   this.dataSource.filter = filterValue.trim().toLowerCase();
-  //   if (this.dataSource.paginator) {
-  //     this.dataSource.paginator.firstPage();
-  //   }
-  // }
-  searchStudent() {
-    const value = this.search.toLowerCase().trim();
-    this.dataSource = new MatTableDataSource(
-      this.students.filter(
-        (student) => student.firstName.toLowerCase().includes(value) ||
-          student.lastName.toLowerCase().includes(value) ||
-          student.email.toLowerCase().includes(value) ||
-          student.gender.toLowerCase().includes(value) ||
-          student.department.toLowerCase().includes(value)
-      )
-    )
+  public searchStudent() {
+    this.dataSource.filter = this.search.trim().toLowerCase();
   }
 
-  deleteStudent(id: string): void {
+  public deleteStudent(id: string): void {
     this.studentService.deleteStudent(id).subscribe(
       {
         next: () => {
@@ -97,16 +69,15 @@ export class StudentListComponent implements AfterViewInit, OnInit {
         error: () => alert('Failed to delete student.')
       })
   }
-  openDialog(row: any): void {   //confirm delete by using dialog
+  public openDialog(student: Student): void {   //confirm delete by using dialog
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
       width: '250px',
-      data: { id: row.id }
+      data: { id: student.id }
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result === 'OK') {
-        this.deleteStudent(row.id);
+        this.deleteStudent(student.id);
       }
     })
   }
-
 } 

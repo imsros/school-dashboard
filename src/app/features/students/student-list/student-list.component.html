@@ -18,65 +18,39 @@
 
   <div class="mat-elevation-z8 student-list-table">
     <table mat-table [dataSource]="dataSource" matSort>
-      <ng-container matColumnDef="position">
-        <th mat-header-cell *matHeaderCellDef>#</th>
-        <td mat-cell *matCellDef="let row; let i = index">
-          {{ (paginator.pageIndex * paginator.pageSize) + i + 1 }}
+
+      <ng-container *ngFor="let col of columnDefs" [matColumnDef]="col.key">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{col.label}}</th>
+        <td mat-cell *matCellDef="let student; let i = index">
+          <ng-container *ngIf="col.type === 'index'">
+            {{ (paginator.pageIndex * paginator.pageSize) + i + 1 }}
+          </ng-container>
+
+          <ng-container *ngIf="col.type === 'image'">
+            <img [src]="student.image || 'https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png'"
+              class="student-image" style="width: 60px; height: 60px; border-radius: 50%;">
+          </ng-container>
+
+          <ng-container *ngIf="col.pipe === 'date'">
+            {{ student[col.key] | date:'mediumDate' }}
+          </ng-container>
+
+          <ng-container *ngIf="col.pipe === 'gender'">
+            {{ student[col.key] | gender }}
+          </ng-container>
+
+          <ng-container *ngIf="!col.type && !col.pipe">
+            {{ student[col.key] }}
+          </ng-container>
         </td>
-      </ng-container>
-      <!-- ID Column -->
-      <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Code</th>
-        <td mat-cell *matCellDef="let row">{{ row.id }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="image" class="student-image">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Image</th>
-        <td mat-cell *matCellDef="let row">
-          <img [src]="row.image ? row.image : 'https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png'"
-            alt="student-image" style="width: 60px; height: 60px; border-radius: 50%;" />
-        </td>
-      </ng-container>
-
-      <ng-container matColumnDef="firstName">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>First Name</th>
-        <td mat-cell *matCellDef="let row">{{ row.firstName }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="lastName">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Last Name</th>
-        <td mat-cell *matCellDef="let row">{{ row.lastName }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="email">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
-        <td mat-cell *matCellDef="let row">{{ row.email }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="gender">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Gender</th>
-        <td mat-cell *matCellDef="let row">{{ row.gender | gender}}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="dob">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Date of Birth</th>
-        <td mat-cell *matCellDef="let row">{{ row.dob | date : 'mediumDate'}}</td>
-        <!-- built in angular date pipe -->
-      </ng-container>
-
-      <ng-container matColumnDef="department">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Department</th>
-        <td mat-cell *matCellDef="let row">{{ row.department }}</td>
       </ng-container>
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef>Actions</th>
-        <td mat-cell *matCellDef="let row">
-          <button mat-icon-button matTooltip="Edit" color="primary" aria-label="Edit Student"
-            [routerLink]="['/student/student-edit', row.id]">
+        <td mat-cell *matCellDef="let student">
+          <button mat-icon-button color="primary" [routerLink]="['/student/student-edit', student.id]">
             <mat-icon>edit</mat-icon>
           </button>
-          <button mat-icon-button matTooltip="Delete" color="warn" aria-label="Delete Student"
-            (click)="openDialog(row)">
+          <button mat-icon-button color="warn" (click)="openDialog(student)">
             <mat-icon>delete</mat-icon>
           </button>
         </td>

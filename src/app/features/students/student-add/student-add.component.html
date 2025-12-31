@@ -35,16 +35,12 @@
           <mat-select id="gender" formControlName="gender">
             <mat-option *ngFor="let item of genders" [value]="item.value">{{item.value | gender}}</mat-option>
 
-            <!-- <mat-option [value]="'F'">Female</mat-option>
-            <mat-option [value]="'M'">Male</mat-option> -->
           </mat-select>
           <mat-error>Gender is required.</mat-error>
         </mat-form-field>
         <mat-form-field>
           <mat-label>Date of Birth </mat-label>
-          <!-- <input matInput placeholder="MM/DD/YY" formControlName="dob" /> -->
           <input matInput [matDatepicker]="picker" formControlName="dob">
-          <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
           <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
           <mat-error>Date of Birth is required.</mat-error>
@@ -52,11 +48,6 @@
         <mat-form-field>
           <mat-label for="department">Department</mat-label>
           <mat-select id="department" formControlName="department">
-            <!-- <mat-option value="biology">Biology</mat-option>
-            <mat-option value="chemistry">Chemistry</mat-option>
-            <mat-option value="computerScience">Computer Science</mat-option>
-            <mat-option value="environmentalScience">Environmental Science</mat-option>
-            <mat-option value="mathematics">Mathematics</mat-option> -->
             <mat-option *ngFor="let departments of departmentOptions"
               [value]="departments.value">{{departments.department}}</mat-option>
           </mat-select>

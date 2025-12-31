@@ -1,16 +1,30 @@
-<h1>Classes</h1>
+<div class="class-header">
+
+    <h1>Classes</h1>
+</div>
 <div class="class-container">
 
     <div class="header">
-        <button> <mat-icon>menu</mat-icon></button>
-        <button> <mat-icon>grid_4x4</mat-icon></button>
+        <button (click)="layout.set('list')">
+            <mat-icon>menu</mat-icon>
+        </button>
+        <button (click)="layout.set('grid')">
+            <mat-icon>grid_4x4</mat-icon>
+        </button>
     </div>
     <div class="class-body">
-        <mat-grid-list cols="4" rowHeight="120px" gutterSize="10px">
+        <mat-grid-list *ngIf="layout() === 'grid'" cols="4" rowHeight="120px" gutterSize="10px">
             <mat-grid-tile>1</mat-grid-tile>
             <mat-grid-tile>2</mat-grid-tile>
             <mat-grid-tile>3</mat-grid-tile>
             <mat-grid-tile>4</mat-grid-tile>
+            <mat-grid-tile>5</mat-grid-tile>
         </mat-grid-list>
+
+        <div *ngIf="layout() === 'list'" class="list-view">
+            <div class="list-item" *ngFor="let i of [1,2,3,4,5]">
+                {{ i }}
+            </div>
+        </div>
     </div>
 </div>
